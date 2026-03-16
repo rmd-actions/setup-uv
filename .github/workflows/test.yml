@@ -21,14 +21,14 @@ jobs:
     permissions:
       security-events: write # for zizmor
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Actionlint
-        uses: eifinger/actionlint-action@213860089b7cf97d640aa67567898fabeb132746 # v1.9.3
+        uses: eifinger/actionlint-action@447fbfe7533062b7a9ea55f790f2396fba6d052a # v1.10.0
       - name: Run zizmor
-        uses: zizmorcore/zizmor-action@e639db99335bc9038abc0e066dfcd72e23d26fb4 # v0.3.0
-      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        uses: zizmorcore/zizmor-action@135698455da5c3b3e55f73f4419e481ab68cdd95 # v0.4.1
+      - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -51,7 +51,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, macos-14, windows-latest]
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install latest version
@@ -76,7 +76,7 @@ jobs:
   test-uv-no-modify-path:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install with UV_NO_MODIFY_PATH set
@@ -125,7 +125,7 @@ jobs:
             expected-version: "0.1.0"
             resolution-strategy: "lowest"
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install version ${{ matrix.input.version-input }} with strategy ${{ matrix.input.resolution-strategy || 'highest' }}
@@ -154,7 +154,7 @@ jobs:
       matrix:
         version-input: ["latest", ">=0.8"]
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install version ${{ matrix.version-input }}
@@ -182,7 +182,7 @@ jobs:
           - working-directory: "__tests__/fixtures/uv-toml-project"
             expected-version: "0.5.15"
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install version from ${{ matrix.input.working-directory }}
@@ -208,7 +208,7 @@ jobs:
           - version-file: "__tests__/fixtures/.tool-versions"
             expected-version: "0.5.15"
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install version from ${{ matrix.input.version-file }}
@@ -225,7 +225,7 @@ jobs:
   test-malformed-pyproject-file-fallback:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install using malformed pyproject.toml
@@ -245,7 +245,7 @@ jobs:
           - os: macos-latest
             checksum: "a70cbfbf3bb5c08b2f84963b4f12c94e08fbb2468ba418a3bfe1066fbe9e7218"
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Checksum matches expected
@@ -259,7 +259,7 @@ jobs:
   test-with-explicit-token:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install default version
@@ -272,7 +272,7 @@ jobs:
   test-uvx:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install default version
@@ -285,7 +285,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, macos-14, windows-latest]
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install default version
@@ -293,35 +293,13 @@ jobs:
       - run: uv tool install ruff
       - run: ruff --version
 
-  test-tilde-expansion-tool-dirs:
-    runs-on: selfhosted-ubuntu-arm64
-    steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-        with:
-          persist-credentials: false
-      - name: Setup with cache
-        uses: ./
-        with:
-          tool-bin-dir: "~/tool-bin-dir"
-          tool-dir: "~/tool-dir"
-      - name: "Check if tool dirs are expanded"
-        run: |
-          if ! echo "$PATH" | grep -q "/home/ubuntu/tool-bin-dir"; then
-              echo "PATH does not contain /home/ubuntu/tool-bin-dir: $PATH"
-              exit 1
-          fi
-          if [ "$UV_TOOL_DIR" != "/home/ubuntu/tool-dir" ]; then
-              echo "UV_TOOL_DIR does not contain /home/ubuntu/tool-dir: $UV_TOOL_DIR"
-              exit 1
-          fi
-
   test-python-version:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install latest version
@@ -353,7 +331,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install latest version
@@ -386,11 +364,65 @@ jobs:
         env:
           UV_VENV: ${{ steps.setup-uv.outputs.venv }}
 
+  test-activate-environment-custom-path:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Install latest version
+        id: setup-uv
+        uses: ./
+        with:
+          python-version: 3.13.1t
+          activate-environment: true
+          venv-path: ${{ runner.temp }}/custom-venv
+      - name: Verify VIRTUAL_ENV matches output
+        run: |
+          if [ "$VIRTUAL_ENV" != "$UV_VENV" ]; then
+            echo "VIRTUAL_ENV does not match venv output: $VIRTUAL_ENV vs $UV_VENV"
+            exit 1
+          fi
+        shell: bash
+        env:
+          UV_VENV: ${{ steps.setup-uv.outputs.venv }}
+      - name: Verify venv location is runner.temp/custom-venv
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+
+          venv = Path(os.environ["VIRTUAL_ENV"]).resolve()
+          temp = Path(os.environ["RUNNER_TEMP"]).resolve()
+
+          if venv.name != "custom-venv":
+              raise SystemExit(f"Expected venv name 'custom-venv', got: {venv}")
+          if venv.parent != temp:
+              raise SystemExit(f"Expected venv under {temp}, got: {venv}")
+          if not venv.is_dir():
+              raise SystemExit(f"Venv directory does not exist: {venv}")
+          PY
+        shell: bash
+      - name: Verify packages can be installed
+        run: uv pip install pip
+        shell: bash
+      - name: Verify python runs from custom venv
+        run: |
+          python - <<'PY'
+          import sys
+          if "custom-venv" not in sys.executable:
+              raise SystemExit(f"Python is not running from custom venv: {sys.executable}")
+          PY
+        shell: bash
+
   test-musl:
     runs-on: ubuntu-latest
     container: alpine
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install latest version
@@ -429,7 +461,7 @@ jobs:
           - os: windows-2025
             expected-os: "windows-2025"
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Setup uv
@@ -453,9 +485,9 @@ jobs:
     strategy:
       matrix:
         enable-cache: ["true", "false", "auto"]
-        os: ["ubuntu-latest", "selfhosted-ubuntu-arm64", "windows-latest"]
+        os: ["ubuntu-latest", "windows-latest"]
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Setup with cache
@@ -471,10 +503,10 @@ jobs:
     strategy:
       matrix:
         enable-cache: ["true", "false", "auto"]
-        os: ["ubuntu-latest", "selfhosted-ubuntu-arm64", "windows-latest"]
+        os: ["ubuntu-latest", "windows-latest"]
     needs: test-setup-cache
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Restore with cache
@@ -493,7 +525,7 @@ jobs:
           CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
         shell: bash
       - name: Cache was not hit
-        if: ${{ matrix.enable-cache == 'false' || (matrix.enable-cache == 'auto' && matrix.os == 'selfhosted-ubuntu-arm64') }}
+        if: ${{ matrix.enable-cache == 'false' }}
         run: |
           if [ "$CACHE_HIT" == "true" ]; then
             exit 1
@@ -508,7 +540,7 @@ jobs:
   test-setup-cache-requirements-txt:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Setup with cache
@@ -524,7 +556,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: test-setup-cache-requirements-txt
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Restore with cache
@@ -548,7 +580,7 @@ jobs:
   test-setup-cache-dependency-glob:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Setup with cache
@@ -565,7 +597,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: test-setup-cache-dependency-glob
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Change pyproject.toml
@@ -593,7 +625,7 @@ jobs:
   test-setup-cache-save-cache-false:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Setup with cache
@@ -609,7 +641,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: test-setup-cache-save-cache-false
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Restore with cache
@@ -629,7 +661,7 @@ jobs:
   test-setup-cache-restore-cache-false:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Setup with cache
@@ -644,7 +676,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: test-setup-cache-restore-cache-false
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Restore with cache
@@ -670,11 +702,9 @@ jobs:
             expected-cache-dir: "/home/runner/work/_temp/setup-uv-cache"
           - os: windows-latest
             expected-cache-dir: "D:\\a\\_temp\\setup-uv-cache"
-          - os: selfhosted-ubuntu-arm64
-            expected-cache-dir: "/home/ubuntu/.cache/uv"
     runs-on: ${{ matrix.inputs.os }}
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Setup with cache
@@ -692,7 +722,7 @@ jobs:
   test-cache-local-cache-disabled:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Setup without cache
@@ -711,7 +741,7 @@ jobs:
   test-cache-local-cache-disabled-but-explicit-path:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Setup without cache
@@ -728,99 +758,10 @@ jobs:
           fi
         shell: bash
 
-  test-setup-cache-local:
-    runs-on: selfhosted-ubuntu-arm64
-    steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-        with:
-          persist-credentials: false
-      - name: Setup with cache
-        uses: ./
-        with:
-          enable-cache: true
-          cache-suffix: ${{ github.run_id }}-${{ github.run_attempt }}-test-setup-cache-local
-          cache-local-path: /tmp/uv-cache
-      - run: uv sync
-        working-directory: __tests__/fixtures/uv-project
-  test-restore-cache-local:
-    runs-on: selfhosted-ubuntu-arm64
-    needs: test-setup-cache-local
-    steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-        with:
-          persist-credentials: false
-      - name: Restore with cache
-        id: restore
-        uses: ./
-        with:
-          enable-cache: true
-          cache-suffix: ${{ github.run_id }}-${{ github.run_attempt }}-test-setup-cache-local
-          cache-local-path: /tmp/uv-cache
-      - name: Cache was hit
-        run: |
-          if [ "$CACHE_HIT" != "true" ]; then
-            exit 1
-          fi
-        env:
-          CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
-      - run: uv sync
-        working-directory: __tests__/fixtures/uv-project
-
-  test-tilde-expansion-cache-local-path:
-    runs-on: selfhosted-ubuntu-arm64
-    steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-        with:
-          persist-credentials: false
-      - name: Create cache directory
-        run: mkdir -p ~/uv-cache
-        shell: bash
-      - name: Setup with cache
-        uses: ./
-        with:
-          cache-local-path: ~/uv-cache/cache-local-path
-      - run: uv sync
-        working-directory: __tests__/fixtures/uv-project
-
-  test-tilde-expansion-cache-dependency-glob:
-    runs-on: selfhosted-ubuntu-arm64
-    steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-        with:
-          persist-credentials: false
-      - name: Create cache directory
-        run: mkdir -p ~/uv-cache
-        shell: bash
-      - name: Create cache dependency glob file
-        run: touch ~/uv-cache.glob
-        shell: bash
-      - name: Setup with cache
-        uses: ./
-        with:
-          enable-cache: true
-          cache-local-path: ~/uv-cache/cache-dependency-glob
-          cache-dependency-glob: "~/uv-cache.glob"
-      - run: uv sync
-        working-directory: __tests__/fixtures/uv-project
-
-  cleanup-tilde-expansion-tests:
-    needs:
-      - test-tilde-expansion-cache-local-path
-      - test-tilde-expansion-cache-dependency-glob
-    if: always()
-    runs-on: selfhosted-ubuntu-arm64
-    steps:
-      - name: Remove cache directory
-        run: rm -rf ~/uv-cache
-        shell: bash
-      - name: Remove cache dependency glob file
-        run: rm -f ~/uv-cache.glob
-        shell: bash
-
   test-no-python-version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Fake pyproject.toml at root
@@ -835,7 +776,7 @@ jobs:
   test-custom-manifest-file:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install from custom manifest file
@@ -854,7 +795,7 @@ jobs:
   test-absolute-path:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Create requirements.txt
@@ -874,7 +815,7 @@ jobs:
   test-relative-path:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: mkdir
@@ -898,7 +839,7 @@ jobs:
   test-cache-prune-force:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Setup uv
@@ -915,7 +856,7 @@ jobs:
   test-cache-dir-from-file:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Verify uv cache dir is not populated
@@ -937,10 +878,33 @@ jobs:
             exit 1
           fi
 
+  test-cache-python-missing-managed-install-dir:
+    runs-on: ubuntu-latest
+    env:
+      UV_PYTHON_INSTALL_DIR: /tmp/missing-uv-python
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Setup uv with cache and python cache enabled
+        uses: ./
+        with:
+          enable-cache: true
+          cache-python: true
+          python-version: "3.12"
+          cache-local-path: /tmp/setup-uv-cache
+          cache-suffix: ${{ github.run_id }}-${{ github.run_attempt }}-test-cache-python-missing-managed-install-dir
+      - name: Ensure uv cache dir exists so only python-cache behavior is tested
+        run: uv sync
+        working-directory: __tests__/fixtures/uv-project
+        shell: bash
+      - name: Ensure managed Python install dir does not exist and this does not break caching
+        run: rm -rf "$UV_PYTHON_INSTALL_DIR"
+
   test-cache-python-installs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Verify Python install dir is not populated
@@ -967,7 +931,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: test-cache-python-installs
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Verify Python install dir does not exist
@@ -1007,11 +971,9 @@ jobs:
             expected-python-dir: "/home/runner/work/_temp/uv-python-dir"
           - os: windows-latest
             expected-python-dir: "D:\\a\\_temp\\uv-python-dir"
-          - os: selfhosted-ubuntu-arm64
-            expected-python-dir: "/home/ubuntu/.local/share/uv/python"
     runs-on: ${{ matrix.inputs.os }}
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install latest version
@@ -1030,7 +992,7 @@ jobs:
   test-act:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install act
@@ -1045,11 +1007,11 @@ jobs:
   validate-typings:
     runs-on: "ubuntu-latest"
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Validate typings
-        uses: typesafegithub/github-actions-typing@184d97003b1300f6a10e286eb98c191e416ff02b # v2.2.1
+        uses: typesafegithub/github-actions-typing@9ddf35b71a482be7d8922b28e8d00df16b77e315 # v2.2.2
 
   all-tests-passed:
     runs-on: ubuntu-latest
@@ -1066,9 +1028,9 @@ jobs:
       - test-with-explicit-token
       - test-uvx
       - test-tool-install
-      - test-tilde-expansion-tool-dirs
       - test-python-version
       - test-activate-environment
+      - test-activate-environment-custom-path
       - test-musl
       - test-cache-key-os-version
       - test-cache-local
@@ -1084,17 +1046,13 @@ jobs:
       - test-restore-cache-save-cache-false
       - test-setup-cache-restore-cache-false
       - test-restore-cache-restore-cache-false
-      - test-setup-cache-local
-      - test-restore-cache-local
-      - test-tilde-expansion-cache-local-path
-      - test-tilde-expansion-cache-dependency-glob
-      - cleanup-tilde-expansion-tests
       - test-no-python-version
       - test-custom-manifest-file
       - test-absolute-path
       - test-relative-path
       - test-cache-prune-force
       - test-cache-dir-from-file
+      - test-cache-python-missing-managed-install-dir
       - test-cache-python-installs
       - test-restore-python-installs
       - test-python-install-dir
