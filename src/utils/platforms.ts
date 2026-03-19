@@ -13,6 +13,7 @@ export type Architecture =
   | "x86_64"
   | "aarch64"
   | "s390x"
+  | "riscv64gc"
   | "powerpc64le";
 
 export function getArch(): Architecture | undefined {
@@ -21,6 +22,7 @@ export function getArch(): Architecture | undefined {
     arm64: "aarch64",
     ia32: "i686",
     ppc64: "powerpc64le",
+    riscv64: "riscv64gc",
     s390x: "s390x",
     x64: "x86_64",
   };
@@ -106,9 +108,15 @@ function getLinuxOSNameVersion(): string {
       const content = fs.readFileSync(file, "utf8");
       const id = parseOsReleaseValue(content, "ID");
       const versionId = parseOsReleaseValue(content, "VERSION_ID");
+      // Fallback for rolling releases (debian:unstable/testing, arch, etc.)
+      // that don't have VERSION_ID but have VERSION_CODENAME
+      const versionCodename = parseOsReleaseValue(content, "VERSION_CODENAME");
 
       if (id && versionId) {
         return `${id}-${versionId}`;
+      }
+      if (id && versionCodename) {
+        return `${id}-${versionCodename}`;
       }
     } catch {
       // Try next file
