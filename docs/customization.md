@@ -18,41 +18,35 @@ are automatically verified by this action. The sha256 hashes can be found on the
 
 ## Manifest file
 
-The `manifest-file` input allows you to specify a JSON manifest that lists available uv versions,
-architectures, and their download URLs. By default, this action uses the manifest file contained
-in this repository, which is automatically updated with each release of uv.
+By default, setup-uv reads version metadata from
+[`astral-sh/versions`](https://github.com/astral-sh/versions).
 
-The manifest file contains an array of objects, each describing a version,
-architecture, platform, and the corresponding download URL. For example:
+The `manifest-file` input lets you override that source with your own URL, for example to test
+custom uv builds or alternate download locations.
+
+### Format
+
+The manifest file must use the same format as `astral-sh/versions`: one JSON object per line, where each object represents a version and its artifacts. The versions must be sorted in descending order. For example:
 
 ```json
-[
-  {
-    "version": "0.7.13",
-    "artifactName": "uv-aarch64-apple-darwin.tar.gz",
-    "arch": "aarch64",
-    "platform": "apple-darwin",
-    "downloadUrl": "https://github.com/astral-sh/uv/releases/download/0.7.13/uv-aarch64-apple-darwin.tar.gz"
-  },
-  ...
-]
+{"version":"0.10.7","artifacts":[{"platform":"x86_64-unknown-linux-gnu","variant":"default","url":"https://example.com/uv-x86_64-unknown-linux-gnu.tar.gz","archive_format":"tar.gz","sha256":"..."}]}
+{"version":"0.10.6","artifacts":[{"platform":"x86_64-unknown-linux-gnu","variant":"default","url":"https://example.com/uv-x86_64-unknown-linux-gnu.tar.gz","archive_format":"tar.gz","sha256":"..."}]}
 ```
 
-You can supply a custom manifest file URL to define additional versions,
-architectures, or different download URLs.
-This is useful if you maintain your own uv builds or want to override the default sources.
+setup-uv currently only supports `default` as the `variant`.
+
+The `archive_format` field is currently ignored.
 
 ```yaml
 - name: Use a custom manifest file
   uses: astral-sh/setup-uv@v7
   with:
-    manifest-file: "https://example.com/my-custom-manifest.json"
+    manifest-file: "https://example.com/my-custom-manifest.ndjson"
 ```
 
 > [!NOTE]
-> When you use a custom manifest file and do not set the `version` input, its default value is `latest`.
-> This means the action will install the latest version available in the custom manifest file.
-> This is different from the default behavior of installing the latest version from the official uv releases.
+> When you use a custom manifest file and do not set the `version` input, setup-uv installs the
+> latest version from that custom manifest.
 
 ## Add problem matchers
 
