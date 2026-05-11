@@ -1,4 +1,4 @@
-name: "Update known versions"
+name: "Update known checksums"
 on:
   workflow_dispatch:
   schedule:
@@ -18,16 +18,15 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: true
-      - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
-          node-version: "20"
-      - name: Update known versions
-        id: update-known-versions
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Update known checksums
+        id: update-known-checksums
         run:
-          node dist/update-known-versions/index.js
+          node dist/update-known-checksums/index.cjs
           src/download/checksum/known-checksums.ts
-          version-manifest.json
-          ${{ secrets.GITHUB_TOKEN }}
       - name: Check for changes
         id: changes-exist
         run: |
@@ -48,10 +47,10 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git add .
-          git commit -m "chore: update known versions for $LATEST_VERSION"
+          git commit -m "chore: update known checksums for $LATEST_VERSION"
           git push origin HEAD:refs/heads/main
         env:
-          LATEST_VERSION: ${{ steps.update-known-versions.outputs.latest-version }}
+          LATEST_VERSION: ${{ steps.update-known-checksums.outputs.latest-version }}
 
       - name: Create Pull Request
         if: ${{ steps.changes-exist.outputs.changes-exist == 'true' && steps.commit-and-push.outcome != 'success' }}
@@ -60,11 +59,11 @@ jobs:
           commit-message: "chore: update known checksums"
           title:
             "chore: update known checksums for ${{
-            steps.update-known-versions.outputs.latest-version }}"
+            steps.update-known-checksums.outputs.latest-version }}"
           body:
             "chore: update known checksums for ${{
-            steps.update-known-versions.outputs.latest-version }}"
+            steps.update-known-checksums.outputs.latest-version }}"
           base: main
-          labels: "automated-pr,update-known-versions"
-          branch: update-known-versions-pr
+          labels: "automated-pr,update-known-checksums"
+          branch: update-known-checksums-pr
           delete-branch: true
