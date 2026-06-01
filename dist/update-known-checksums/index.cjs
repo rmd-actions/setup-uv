@@ -44949,6 +44949,131 @@ var semver = __toESM(require_semver(), 1);
 
 // src/download/checksum/known-checksums.ts
 var KNOWN_CHECKSUMS = {
+  "aarch64-apple-darwin-0.11.6": "4b69a4e366ec38cd5f305707de95e12951181c448679a00dce2a78868dfc9f5b",
+  "aarch64-pc-windows-msvc-0.11.6": "bee7b25a7a999f17291810242b47565c3ef2b9205651a0fd02a086f261a7e167",
+  "aarch64-unknown-linux-gnu-0.11.6": "d5be4bf7015ea000378cb3c3aba53ba81a8673458ace9c7fa25a0be005b74802",
+  "aarch64-unknown-linux-musl-0.11.6": "d14ebd6f200047264152daaf97b8bd36c7885a5033e9e8bba8366cb0049c0d00",
+  "arm-unknown-linux-musleabihf-0.11.6": "4410a9489e0a29ce8f86fc8604b75a3dd821e9e52734282cbb413b4e19c5c70a",
+  "armv7-unknown-linux-gnueabihf-0.11.6": "9758d49c200c211ccb2c9cbf43877102031c3457e80b6c3cb9da1e4c00119d2a",
+  "armv7-unknown-linux-musleabihf-0.11.6": "0677423d98cea5011d346d7d4a33a53360b99a51a04df4b45f67d43a8308c831",
+  "i686-pc-windows-msvc-0.11.6": "c5569da150166363389a719553d87f99e0c29e542b2c31bc8bd4aeeb8eb83d99",
+  "i686-unknown-linux-gnu-0.11.6": "b4bf8d78478b573c1816b17ec86da7ade14242cd68ac092c1701c5b4a75dc228",
+  "i686-unknown-linux-musl-0.11.6": "ca31705d93f48313d5ffdc23da165e680c6c5389d9a2cc62b85a1ed495e0331f",
+  "powerpc64le-unknown-linux-gnu-0.11.6": "153397d3d82e45e68fb1f4a40ee9898245ec8ed86fd03fcaacaf6e793316acf7",
+  "riscv64gc-unknown-linux-gnu-0.11.6": "0e3ead8667b51b07b5fb9d114bcd1914a5fe3159e6959a584dc2f89c6724e123",
+  "riscv64gc-unknown-linux-musl-0.11.6": "87d5932bffef3b7b9cba4a2a042f95edf75cd34555fc80cfa98cc5a4426635f9",
+  "s390x-unknown-linux-gnu-0.11.6": "6e3d4338da2db2c63326721f1eb3b4f32d9bde24aeff11208d397e1aeba8678e",
+  "x86_64-apple-darwin-0.11.6": "8e0ed5035eaa28c7c8cd2a46b5b9a05bfff1ef01dbdc090a010eb8fdf193a457",
+  "x86_64-pc-windows-msvc-0.11.6": "99aa60edd017a256dbf378f372d1cff3292dbc6696e0ea01716d9158d773ab77",
+  "x86_64-unknown-linux-gnu-0.11.6": "0c6bab77a67a445dc849ed5e8ee8d3cb333b6e2eba863643ce1e228075f27943",
+  "x86_64-unknown-linux-musl-0.11.6": "aa342a53abe42364093506d7704214d2cdca30b916843e520bc67759a5d20132",
+  "aarch64-apple-darwin-0.11.5": "470993e87503874c7c48861daa308b48a7c367e117235bbecf19368b9fdd35b2",
+  "aarch64-pc-windows-msvc-0.11.5": "9b9b99a985cccf249225aaad76412823e9d9736d605dc2252151172a7f6ab3db",
+  "aarch64-unknown-linux-gnu-0.11.5": "3e9b525d686ae4f3682412bce21536366a5c79616a41055530319c501c883169",
+  "aarch64-unknown-linux-musl-0.11.5": "d73860013061c62d6a89f3370527d4c407214038af331147773ae2fd8f6394c1",
+  "arm-unknown-linux-musleabihf-0.11.5": "dcfb4dc15f46eae90ac6d64e7dfc91d8bc0b16816f53b9f8d58ccc8a1220dbb8",
+  "armv7-unknown-linux-gnueabihf-0.11.5": "818d86386fb57ca4182f39df25dd6160e97300d5ba362bc44e25d8adc904776c",
+  "armv7-unknown-linux-musleabihf-0.11.5": "2cae8baae2c1b42249e656e16f5fe733189b0760ee93995be024f9cc5e72eb19",
+  "i686-pc-windows-msvc-0.11.5": "2057ccf3dba9ed23755df92318a08ab221e9e088385c667292acc09d9cc477c6",
+  "i686-unknown-linux-gnu-0.11.5": "2d340e2e5b3354ee7208bb8f2bbf4d2347d7ffdf2af733c21bee98746e34076d",
+  "i686-unknown-linux-musl-0.11.5": "ffe2bc9e0c4fdc18f69b7c5bc016a03fa17028d42620ab2b024ad5bb22cd3f3d",
+  "powerpc64le-unknown-linux-gnu-0.11.5": "c4dabaaa36a13989ab04389263064ca5c27093eb2e7c851ab62d50b6312d9800",
+  "riscv64gc-unknown-linux-gnu-0.11.5": "6ae3ec3cf1aab72604bc6aa8486faf4b473066422c49d9c42ea8366ff3039de4",
+  "riscv64gc-unknown-linux-musl-0.11.5": "d4686fb144563a40e791fc3f010a91e57fdce9cac7a03b8a14a972c25be4464c",
+  "s390x-unknown-linux-gnu-0.11.5": "1309f1e462462dab2da6a55c37012a228d1c06a55c5b43f8ef901ba1599d9e12",
+  "x86_64-apple-darwin-0.11.5": "b8964bed538143f9016d807e421e28f0237a29589851fc79e8159751ac64779a",
+  "x86_64-pc-windows-msvc-0.11.5": "3fa5b6ea9de9256a035e0471f5ef0bb5d95344659723d6eb063e27c76431515d",
+  "x86_64-unknown-linux-gnu-0.11.5": "0d87793f733f327849ebf9cf51b576cfb08328e22af73061405e4bec96ae84d1",
+  "x86_64-unknown-linux-musl-0.11.5": "ee8a52743ce3979e52872b49c5e58ffa541048cb95132142bff23fe5608d73ea",
+  "aarch64-apple-darwin-0.11.4": "9b9cb6c6f58c3246dbf3351ed4e97c500bc3266f5f237d2fd620b66e1c31dc56",
+  "aarch64-pc-windows-msvc-0.11.4": "708b1c210109e50ff520bcd9b6d29cbd8cee584bb55e84d3d1941bf75ab0893d",
+  "aarch64-unknown-linux-gnu-0.11.4": "f5aa91bba0b98d85a4e5262e2847f9ab2273c754f6374dff62b37ef18c65a2e7",
+  "aarch64-unknown-linux-musl-0.11.4": "a02ec7667d7bb1d33cdb7e1de22f7e4242967e3df7e350bac6212515e3bce8ac",
+  "arm-unknown-linux-musleabihf-0.11.4": "5bbc59d8c3d5fdade88fca47e4c18298e44a367e178e97e11466b22e992edae2",
+  "armv7-unknown-linux-gnueabihf-0.11.4": "9d2299155b65988643a55777c638408a0df8e65f606933d1e44691ada72ff106",
+  "armv7-unknown-linux-musleabihf-0.11.4": "43b1e02f8f4b27fd1d085fb14a246638bb607af32408cb13c5c3b3fb47db027f",
+  "i686-pc-windows-msvc-0.11.4": "661588b3607e6d5bb78551f596772a0d04a930ce128189c90800d07f6fca1998",
+  "i686-unknown-linux-gnu-0.11.4": "4248773a2574c3b697588655d7bf14f97baa744c3e156585230e5c711befa6ff",
+  "i686-unknown-linux-musl-0.11.4": "0323c08c1e7455cdf65c89296eda28bad9051cb09d16ea3ce1d0bf718143449e",
+  "powerpc64le-unknown-linux-gnu-0.11.4": "3ddb764538a5dcb4967d7375fde193ce5391e37ddd4d1242012d04cf3848479f",
+  "riscv64gc-unknown-linux-gnu-0.11.4": "93db93607a824d677c47003ee828936913cfdeb2c871bb34cd79c3ec4481e2b1",
+  "riscv64gc-unknown-linux-musl-0.11.4": "78f0d7f92244ce3d7a7a0df5fab2495450bcb18600b59acf1755e77cafed2300",
+  "s390x-unknown-linux-gnu-0.11.4": "07361e1fb32e870841a27d3d7b0b20c4a81e0cc25eeb8b9115425bfd227d2d05",
+  "x86_64-apple-darwin-0.11.4": "c326edaf3fd492f53d1c58777f3459c0d87bf9dae8d89e80aec4b0da6622dcf3",
+  "x86_64-pc-windows-msvc-0.11.4": "26d84455a40b0272b2ab4785cad298ff2c89cd0765b482e9f85b5a1bd880a863",
+  "x86_64-unknown-linux-gnu-0.11.4": "12f9a192bb32d70470aa22cbd2a193d1323a3f58f6ac5f9e3866aaca760c98c6",
+  "x86_64-unknown-linux-musl-0.11.4": "36ce1c5d8997db9b6a24d0f41646d5509b6d1d8b9448c7325f8248a6ea5d4b00",
+  "aarch64-apple-darwin-0.11.3": "2bc3d0c7bf2bd08325b1e170abac6f7e5b3346e1d4eab3370d17cefec934996f",
+  "aarch64-pc-windows-msvc-0.11.3": "e99c56f9ab5e1e1ddcaea3e2389990c94baf38e0d7cb2148de08baf2d3261d49",
+  "aarch64-unknown-linux-gnu-0.11.3": "711382e3158433f06b11d99afb440f4416359fc3c84558886d8ed8826a921bff",
+  "aarch64-unknown-linux-musl-0.11.3": "8ecec82cb9a744d5fabff6d16d7777218a7730f699d2aa0d2f751c17858e2efa",
+  "arm-unknown-linux-musleabihf-0.11.3": "3d021046a94ad11f12b9d83f36442a1a28e92e7149c3f79ba2951c96653dafac",
+  "armv7-unknown-linux-gnueabihf-0.11.3": "13c9a0f5f624275ccd36db2896607f4fee3585f420734b16f6c66d70e32aa458",
+  "armv7-unknown-linux-musleabihf-0.11.3": "260a88e2f00daab0363a745fde036a7881002d7a81094388f31925acb284110b",
+  "i686-pc-windows-msvc-0.11.3": "036fa39fa5ea3cb86c127324924b913b5858e8d91c4cb413edacfc3123001696",
+  "i686-unknown-linux-gnu-0.11.3": "b9410c8dae2fa0d4939af5b0ee7272d5591bd55890e8274dcf7f1aea84bfe043",
+  "i686-unknown-linux-musl-0.11.3": "afe533fd409105e753d844490c65a4375e75bfb3812e49122684f996bed9e90a",
+  "powerpc64le-unknown-linux-gnu-0.11.3": "5cdcadf4d50a5354312bc8ef37c2a6cfab4e2f13ccdf8380d3012b927b4ded95",
+  "riscv64gc-unknown-linux-gnu-0.11.3": "8271e07ed9695870f4b0ae5ec722e3ae08fff280068f08bc6a8ca76c67d7fefa",
+  "riscv64gc-unknown-linux-musl-0.11.3": "b750fc8393ced9939448849b05e94de6bf1e998bb7030c4ebe744b47b372bce9",
+  "s390x-unknown-linux-gnu-0.11.3": "6dc4f555a5f6515f7fddb281422d2a8a3943853dae5de837bbb5d996d7576c71",
+  "x86_64-apple-darwin-0.11.3": "b0e05e0b43a000fdc2132ee3f3400ba5dee427bc2337d3ec4eb8cf4f3d5722af",
+  "x86_64-pc-windows-msvc-0.11.3": "ae681c0aaec7cc96af184648cb88d73f8393ed60fa5880abdd6bdb910f9b227c",
+  "x86_64-unknown-linux-gnu-0.11.3": "c0f3236f146e55472663cfbcc9be3042a9f1092275bbe3fe2a56a6cbfd3da5ce",
+  "x86_64-unknown-linux-musl-0.11.3": "8b40cf16b849634b81a530a3d0a0bcae5f24996ef9ae782976fd69b6266d3b8e",
+  "aarch64-apple-darwin-0.11.2": "4beaa9550f93ef7f0fc02f7c28c9c48cd61fe30db00f5ac8947e0a425c3fb282",
+  "aarch64-pc-windows-msvc-0.11.2": "ffdded8338205f53727b51d404563a5ac8eaa9aea53279a7b7c42177e11d478c",
+  "aarch64-unknown-linux-gnu-0.11.2": "04792cac761c4a6ba78267f36f2af541b7f92196d42ac55d21d3ff6b0f5ab6a5",
+  "aarch64-unknown-linux-musl-0.11.2": "275d91dd1f1955136591e7ec5e1fa21e84d0d37ead7da7c35c3683df748d9855",
+  "arm-unknown-linux-musleabihf-0.11.2": "ce572dac1a8f9a92960f89e99351352fae068d34b24bed86fb88e75fd5dd67d9",
+  "armv7-unknown-linux-gnueabihf-0.11.2": "3e90d7de9e3a4e2d8d1bd9ce164362fce22248474986e712039479fb6fd73136",
+  "armv7-unknown-linux-musleabihf-0.11.2": "5222cdd7c7dd3263f8c243831606a9f01a1a07a40ffc3c26c03afb34491075c2",
+  "i686-pc-windows-msvc-0.11.2": "506f8274b253b2386881a121f3b7d915b637019bda15876bbd1357235305cf12",
+  "i686-unknown-linux-gnu-0.11.2": "c7ec378bab887443a70786382e58d76489da14a7e33b155915d648cca4bdb46c",
+  "i686-unknown-linux-musl-0.11.2": "ade8714be45457899568c5b03ef885a0cc94476c07a0bdbe34531ba84231bab2",
+  "powerpc64le-unknown-linux-gnu-0.11.2": "3f3a50e99364efc8ff7add10e79757a2b8458700a38180ec5f313524481b9fbc",
+  "riscv64gc-unknown-linux-gnu-0.11.2": "e56a93f0ff21d6908461a6ecbf465beae19ae22719f900284abb7680bd07ec41",
+  "riscv64gc-unknown-linux-musl-0.11.2": "4f263571bb457a16a31cb38fba4fcc9cf1059d1d32c5b2e54c43175fcd59205d",
+  "s390x-unknown-linux-gnu-0.11.2": "42ebe40775f2a77a514fa47399fde86473bf35bd33b6896c6410a0309fc4d205",
+  "x86_64-apple-darwin-0.11.2": "a9c3653245031304c50dd60ac0301bf6c112e12c38c32302a71d4fa6a63ba2cb",
+  "x86_64-pc-windows-msvc-0.11.2": "171b7ccda1bbd562da6babeffcf533a1c6cc7862cf998da826e1db534fc43e48",
+  "x86_64-unknown-linux-gnu-0.11.2": "7ac2ca0449c8d68dae9b99e635cd3bc9b22a4cb1de64b7c43716398447d42981",
+  "x86_64-unknown-linux-musl-0.11.2": "4700d9fc75734247587deb3e25dd2c6c24f4ac69e8fe91d6acad4a6013115c06",
+  "aarch64-apple-darwin-0.11.1": "f7815f739ed5d0e4202e6292acedb8659b9ae7de663d07188d8c6cbd7f96303f",
+  "aarch64-pc-windows-msvc-0.11.1": "b789db0c1504dd3b02c090bd5783487497cc46cc2eb71754874cdd1ef59eb52a",
+  "aarch64-unknown-linux-gnu-0.11.1": "1340e62da1ee3c1109764340e1247e8a1a232c30dde4a0f0548976dcaa90f06d",
+  "aarch64-unknown-linux-musl-0.11.1": "bd04ffce77ee8d77f39823c13606183581847c2f5dcd704f2ea0f15e376b1a27",
+  "arm-unknown-linux-musleabihf-0.11.1": "625c0e756e2374fce864ceaa6beedd5821e276e2b6307f2b719f2d62b449b89c",
+  "armv7-unknown-linux-gnueabihf-0.11.1": "baf8daaab20b0502d1853dbfd916afb0762c024ae7f0df1c2deb2a1a1c1c3467",
+  "armv7-unknown-linux-musleabihf-0.11.1": "684c25b74e83bcb1b177152379cfe2c974ba731aa5af278e1d161e41709f8bcf",
+  "i686-pc-windows-msvc-0.11.1": "3c07858a08c54e4e5753239354c7b07ae69071b2b6f5aa2cc970e612adcb4740",
+  "i686-unknown-linux-gnu-0.11.1": "6e83167c05708570563b10b6cc7e8c289daef5f51fde0b152e41af2a7ef70813",
+  "i686-unknown-linux-musl-0.11.1": "b0d5152635c257fec76f95cb9268112b47ff70bd33a23866295a4f2ed9f46b7f",
+  "powerpc64le-unknown-linux-gnu-0.11.1": "e42d2abfac46f57564789e2bfa6dbea4ae3135892e36ae066ba0ae77b69bb676",
+  "riscv64gc-unknown-linux-gnu-0.11.1": "5e2c757b35dab015ad37f74ee3e060208390b5f4defb6684876f1be0664f3f6e",
+  "riscv64gc-unknown-linux-musl-0.11.1": "6f590a824aed363cbec4079f7ddab87b5685119e0f5f0e71cd114c7b7c326199",
+  "s390x-unknown-linux-gnu-0.11.1": "4208173c74e29572b799178709b5ed5828b24888659f944a4b47c0aaf78b42d2",
+  "x86_64-apple-darwin-0.11.1": "2103670e8e949605e51926c7b953923ff6f6befbfb55aee928f5e760c9c910f8",
+  "x86_64-pc-windows-msvc-0.11.1": "6659250cebbd3bb6ee48bcb21a3f0c6656450d63fb97f0f069bcb532bdb688ed",
+  "x86_64-unknown-linux-gnu-0.11.1": "7c0c8069053e6e99e5911ff32b916be571f3419cd8e11bd28fb7da2c7dcaa553",
+  "x86_64-unknown-linux-musl-0.11.1": "4e949471a95b37088a1ff1a585f69abed4d3cd3f921f50709a46b6ba62986d38",
+  "aarch64-apple-darwin-0.11.0": "0c0f32c6a3473c5928aff96c3233715edfc79290e892f255cac93710cde7b91a",
+  "aarch64-pc-windows-msvc-0.11.0": "95419e04a3ef5f13fb2a06bd6d787ba80a9d8981d6f097780e5a979817a2879d",
+  "aarch64-unknown-linux-gnu-0.11.0": "8e179ca110343a17f801444ff9ef117dba56ef5fc9f6a4c9bb77b318ddba5f24",
+  "aarch64-unknown-linux-musl-0.11.0": "658be4b8ec905635f1295468d4d5120d9e1ab1722eec9a104473ce993590babe",
+  "arm-unknown-linux-musleabihf-0.11.0": "bfdcbd5fa41c8a9877a72c2b55a95da2bc79933885ef56c699b65bb2ed9cea91",
+  "armv7-unknown-linux-gnueabihf-0.11.0": "0cad4e1b6769e48aa1e80cf639ddcc7c1bfe9ed017e95868fed185a8d818c949",
+  "armv7-unknown-linux-musleabihf-0.11.0": "2aa9da83c6c0cf8a06bc9df14d51056284fa067ef5390b4db79998ff12f3bee7",
+  "i686-pc-windows-msvc-0.11.0": "3b09d70e686087e096dbd8a2af21b922a2cac7d613dc053c3281c3ddbb961961",
+  "i686-unknown-linux-gnu-0.11.0": "59928a0267501c20d9f9942f5f1d81a991ec55e29a19e002ae3d5c178c674c89",
+  "i686-unknown-linux-musl-0.11.0": "1f438d6f6f851f0dabad3307ce7fd46541ecc5c42ebb664f382eb6c9a424a67d",
+  "powerpc64le-unknown-linux-gnu-0.11.0": "29f17fb43595492b1a36cda57df7adad74183132df32799d32897268ff4e26dd",
+  "riscv64gc-unknown-linux-gnu-0.11.0": "84ef37dda1003c5b65fa6c8f84242d35a7fcc84cc5ea9490d702edc36cad1f67",
+  "s390x-unknown-linux-gnu-0.11.0": "b25be62f3b642348a2fece5c658624586661b8d1103891ab6903768b0529edc4",
+  "x86_64-apple-darwin-0.11.0": "31aaec764166af8885cf99321fd6ed24fef80225a6f26ed1ae8ce04111688a7e",
+  "x86_64-pc-windows-msvc-0.11.0": "e21d00b172df83531564a95e75a2bdc0c59b471dbb3515f0c1b4d6ef657dc451",
+  "x86_64-unknown-linux-gnu-0.11.0": "cc0fbb42b3642125f600a55b0b095bea65cddaadb94c6ea2b6ba5d79c5825089",
+  "x86_64-unknown-linux-musl-0.11.0": "bf6b0757c73d1726faa2a819b155d4d864919a95766720215d78fdcd09d42d26",
   "aarch64-apple-darwin-0.10.12": "ae738b5661a900579ec621d3918c0ef17bdec0da2a8a6d8b161137cd15f25414",
   "aarch64-pc-windows-msvc-0.10.12": "e79881e2c4f98a0f3a37b8770bf224e8fee70f6dcf8fc17055d8291bb1b0b867",
   "aarch64-unknown-linux-gnu-0.10.12": "0ed7d20f49f6b9b60d45fdfcac28f3ac01a671a6ef08672401ed2833423fea2a",
@@ -49411,7 +49536,7 @@ async function updateChecksums(filePath, checksumEntries) {
 }
 
 // src/utils/constants.ts
-var VERSIONS_NDJSON_URL = "https://raw.githubusercontent.com/astral-sh/versions/main/v1/uv.ndjson";
+var VERSIONS_MANIFEST_URL = "https://raw.githubusercontent.com/astral-sh/versions/main/v1/uv.ndjson";
 
 // src/utils/fetch.ts
 var import_undici2 = __toESM(require_undici2(), 1);
@@ -49431,72 +49556,80 @@ var fetch = async (url, opts) => await (0, import_undici2.fetch)(url, {
   ...opts
 });
 
-// src/download/versions-client.ts
-var cachedVersionData = /* @__PURE__ */ new Map();
-async function fetchVersionData(url = VERSIONS_NDJSON_URL) {
-  const cachedVersions = cachedVersionData.get(url);
+// src/download/manifest.ts
+var cachedManifestData = /* @__PURE__ */ new Map();
+async function fetchManifest(manifestUrl = VERSIONS_MANIFEST_URL) {
+  const cachedVersions = cachedManifestData.get(manifestUrl);
   if (cachedVersions !== void 0) {
-    debug(`Using cached NDJSON version data from ${url}`);
+    debug(`Using cached manifest data from ${manifestUrl}`);
     return cachedVersions;
   }
-  info(`Fetching version data from ${url} ...`);
-  const response = await fetch(url, {});
+  info(`Fetching manifest data from ${manifestUrl} ...`);
+  const response = await fetch(manifestUrl, {});
   if (!response.ok) {
     throw new Error(
-      `Failed to fetch version data: ${response.status} ${response.statusText}`
+      `Failed to fetch manifest data: ${response.status} ${response.statusText}`
     );
   }
   const body = await response.text();
-  const versions = parseVersionData(body, url);
-  cachedVersionData.set(url, versions);
+  const versions = parseManifest(body, manifestUrl);
+  cachedManifestData.set(manifestUrl, versions);
   return versions;
 }
-function parseVersionData(data, sourceDescription) {
+function parseManifest(data, sourceDescription) {
+  const trimmed = data.trim();
+  if (trimmed === "") {
+    throw new Error(`Manifest at ${sourceDescription} is empty.`);
+  }
+  if (trimmed.startsWith("[")) {
+    throw new Error(
+      `Legacy JSON array manifests are no longer supported in ${sourceDescription}. Use the astral-sh/versions manifest format instead.`
+    );
+  }
   const versions = [];
   for (const [index, line] of data.split("\n").entries()) {
-    const trimmed = line.trim();
-    if (trimmed === "") {
+    const record = line.trim();
+    if (record === "") {
       continue;
     }
     let parsed;
     try {
-      parsed = JSON.parse(trimmed);
+      parsed = JSON.parse(record);
     } catch (error) {
       throw new Error(
-        `Failed to parse version data from ${sourceDescription} at line ${index + 1}: ${error.message}`
+        `Failed to parse manifest data from ${sourceDescription} at line ${index + 1}: ${error.message}`
       );
     }
-    if (!isNdjsonVersion(parsed)) {
+    if (!isManifestVersion(parsed)) {
       throw new Error(
-        `Invalid NDJSON record in ${sourceDescription} at line ${index + 1}.`
+        `Invalid manifest record in ${sourceDescription} at line ${index + 1}.`
       );
     }
     versions.push(parsed);
   }
   if (versions.length === 0) {
-    throw new Error(`No version data found in ${sourceDescription}.`);
+    throw new Error(`No manifest data found in ${sourceDescription}.`);
   }
   return versions;
 }
-async function getLatestVersion() {
-  const versions = await fetchVersionData();
-  const latestVersion = versions[0]?.version;
-  if (!latestVersion) {
-    throw new Error("No versions found in NDJSON data");
+async function getLatestVersion(manifestUrl = VERSIONS_MANIFEST_URL) {
+  const latestVersion = (await fetchManifest(manifestUrl))[0]?.version;
+  if (latestVersion === void 0) {
+    throw new Error("No versions found in manifest data");
   }
-  debug(`Latest version from NDJSON: ${latestVersion}`);
+  debug(`Latest version from manifest: ${latestVersion}`);
   return latestVersion;
 }
-function isNdjsonVersion(value) {
+function isManifestVersion(value) {
   if (!isRecord(value)) {
     return false;
   }
   if (typeof value.version !== "string" || !Array.isArray(value.artifacts)) {
     return false;
   }
-  return value.artifacts.every(isNdjsonArtifact);
+  return value.artifacts.every(isManifestArtifact);
 }
-function isNdjsonArtifact(value) {
+function isManifestArtifact(value) {
   if (!isRecord(value)) {
     return false;
   }
@@ -49524,8 +49657,8 @@ async function run() {
     );
     return;
   }
-  const versions = await fetchVersionData();
-  const checksumEntries = extractChecksumsFromNdjson(versions);
+  const versions = await fetchManifest();
+  const checksumEntries = extractChecksumsFromManifest(versions);
   await updateChecksums(checksumFilePath, checksumEntries);
   setOutput("latest-version", latestVersion);
 }
@@ -49546,7 +49679,7 @@ function getLatestKnownVersionFromChecksums() {
 function extractVersionFromChecksumKey(key) {
   return key.match(VERSION_IN_CHECKSUM_KEY_PATTERN)?.[1];
 }
-function extractChecksumsFromNdjson(versions) {
+function extractChecksumsFromManifest(versions) {
   const checksums = [];
   for (const version of versions) {
     for (const artifact of version.artifacts) {

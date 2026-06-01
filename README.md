@@ -26,7 +26,7 @@ Set up your GitHub Actions workflow with a specific version of [uv](https://docs
 
 ```yaml
 - name: Install the latest version of uv
-  uses: astral-sh/setup-uv@v7
+  uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8.0.0
 ```
 
 If you do not specify a version, this action will look for a [required-version](https://docs.astral.sh/uv/reference/settings/#required-version)
@@ -42,7 +42,7 @@ Have a look under [Advanced Configuration](#advanced-configuration) for detailed
 
 ```yaml
 - name: Install uv with all available options
-  uses: astral-sh/setup-uv@v7
+  uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8.0.0
   with:
     # The version of uv to install (default: searches for version in config files, then latest)
     version: ""
@@ -114,7 +114,7 @@ Have a look under [Advanced Configuration](#advanced-configuration) for detailed
     # Custom path to set UV_TOOL_BIN_DIR to
     tool-bin-dir: ""
 
-    # URL to a custom manifest file (NDJSON preferred, legacy JSON array is deprecated)
+    # URL to a custom manifest file in the astral-sh/versions format
     manifest-file: ""
 
     # Add problem matchers
@@ -139,7 +139,7 @@ This will override any python version specifications in `pyproject.toml` and `.p
 
 ```yaml
 - name: Install the latest version of uv and set the python version to 3.13t
-  uses: astral-sh/setup-uv@v7
+  uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8.0.0
   with:
     python-version: 3.13t
 - run: uv pip install --python=3.13t pip
@@ -157,7 +157,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Install the latest version of uv and set the python version
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8.0.0
         with:
           python-version: ${{ matrix.python-version }}
       - name: Test with python ${{ matrix.python-version }}
@@ -174,7 +174,7 @@ It also controls where [the venv gets created](#activate-environment), unless `v
 
 ```yaml
 - name: Install uv based on the config files in the working-directory
-  uses: astral-sh/setup-uv@v7
+  uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8.0.0
   with:
     working-directory: my/subproject/dir
 ```
@@ -190,8 +190,8 @@ For more advanced configuration options, see our detailed documentation:
 
 ## How it works
 
-By default, this action resolves uv versions from
-[`astral-sh/versions`](https://github.com/astral-sh/versions) (NDJSON) and downloads uv from the
+By default, this action resolves uv versions from the
+[`astral-sh/versions`](https://github.com/astral-sh/versions) manifest and downloads uv from the
 official [GitHub Releases](https://github.com/astral-sh/uv).
 
 It then uses the [GitHub Actions Toolkit](https://github.com/actions/toolkit) to cache uv as a
@@ -216,7 +216,7 @@ For example:
 - name: Checkout the repository
   uses: actions/checkout@main
 - name: Install the latest version of uv
-  uses: astral-sh/setup-uv@v7
+  uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8.0.0
   with:
     enable-cache: true
 - name: Test
@@ -228,7 +228,7 @@ To install a specific version of Python, use
 
 ```yaml
 - name: Install the latest version of uv
-  uses: astral-sh/setup-uv@v7
+  uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8.0.0
   with:
     enable-cache: true
 - name: Install Python 3.12
@@ -247,7 +247,7 @@ output:
   uses: actions/checkout@main
 - name: Install the default version of uv
   id: setup-uv
-  uses: astral-sh/setup-uv@v7
+  uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8.0.0
 - name: Print the installed version
   run: echo "Installed uv version is ${{ steps.setup-uv.outputs.uv-version }}"
 ```
