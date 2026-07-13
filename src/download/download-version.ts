@@ -8,6 +8,7 @@ import {
   TOOL_CACHE_NAME,
   VERSIONS_MANIFEST_URL,
 } from "../utils/constants";
+import * as log from "../utils/logging";
 import type { Architecture, Platform } from "../utils/platforms";
 import { validateChecksum } from "./checksum/checksum";
 import { getArtifact } from "./manifest";
@@ -36,6 +37,7 @@ export async function downloadVersion(
   checksum: string | undefined,
   githubToken: string,
   manifestUrl?: string,
+  downloadFromAstralMirror = true,
 ): Promise<{ version: string; cachedToolDir: string }> {
   const artifact = await getArtifact(version, arch, platform, manifestUrl);
 
@@ -52,7 +54,9 @@ export async function downloadVersion(
       ? checksum
       : resolveChecksum(checksum, artifact.checksum);
 
-  const mirrorUrl = rewriteToMirror(artifact.downloadUrl);
+  const mirrorUrl = downloadFromAstralMirror
+    ? rewriteToMirror(artifact.downloadUrl)
+    : undefined;
   const downloadUrl = mirrorUrl ?? artifact.downloadUrl;
 
   try {
@@ -70,7 +74,7 @@ export async function downloadVersion(
       throw err;
     }
 
-    core.warning(
+    log.warning(
       `Failed to download from mirror, falling back to GitHub Releases: ${(err as Error).message}`,
     );
 
@@ -120,7 +124,7 @@ async function downloadArtifact(
   checksum: string | undefined,
   githubToken: string | undefined,
 ): Promise<{ version: string; cachedToolDir: string }> {
-  core.info(`Downloading uv from "${downloadUrl}" ...`);
+  log.info(`Downloading uv from "${downloadUrl}" ...`);
   const downloadPath = await tc.downloadTool(
     downloadUrl,
     undefined,
@@ -136,7 +140,7 @@ async function downloadArtifact(
       // so this may fail if another tar, like gnu tar, ends up being used.
       uvDir = await tc.extractTar(downloadPath, undefined, "x");
     } catch (err) {
-      core.info(
+      log.info(
         `Extracting with tar failed, falling back to zip extraction: ${(err as Error).message}`,
       );
       const extension = getExtension(platform);
