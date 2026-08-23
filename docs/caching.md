@@ -23,7 +23,7 @@ The computed cache key is available as the `cache-key` output:
 ```yaml
 - name: Setup uv
   id: setup-uv
-  uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
   with:
     enable-cache: true
 - name: Print cache key
@@ -33,12 +33,15 @@ The computed cache key is available as the `cache-key` output:
 ## Enable caching
 
 > [!NOTE]
-> The cache is pruned before it is uploaded to the GitHub Actions cache. This can lead to
-> a small or empty cache. See [Disable cache pruning](#disable-cache-pruning) for more details.
+> The entire uv cache is uploaded to the GitHub Actions cache by default. To reduce the cache size,
+> see [Enable cache pruning](#enable-cache-pruning).
 
 If you enable caching, the [uv cache](https://docs.astral.sh/uv/concepts/cache/) will be uploaded to
 the GitHub Actions cache. This can speed up runs that reuse the cache by several minutes.
-Caching is enabled by default on GitHub-hosted runners.
+With the default `enable-cache: auto`, caching is enabled on GitHub-hosted runners except for
+`release`, tag push, `pull_request_target`, and `workflow_run` events. Caching is disabled for these
+events to prevent insecure or release-sensitive jobs from restoring potentially poisoned caches.
+Set `enable-cache: true` to explicitly enable caching for any event.
 
 > [!TIP]
 >
@@ -50,7 +53,7 @@ You can optionally define a custom cache key suffix.
 ```yaml
 - name: Enable caching and define a custom cache key suffix
   id: setup-uv
-  uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
   with:
     enable-cache: true
     cache-suffix: "optional-suffix"
@@ -89,7 +92,7 @@ changes. If you use relative paths, they are relative to the working directory.
 
 ```yaml
 - name: Define a cache dependency glob
-  uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
   with:
     enable-cache: true
     cache-dependency-glob: "**/pyproject.toml"
@@ -97,7 +100,7 @@ changes. If you use relative paths, they are relative to the working directory.
 
 ```yaml
 - name: Define a list of cache dependency globs
-  uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
   with:
     enable-cache: true
     cache-dependency-glob: |
@@ -107,7 +110,7 @@ changes. If you use relative paths, they are relative to the working directory.
 
 ```yaml
 - name: Define an absolute cache dependency glob
-  uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
   with:
     enable-cache: true
     cache-dependency-glob: "/tmp/my-folder/requirements*.txt"
@@ -115,7 +118,7 @@ changes. If you use relative paths, they are relative to the working directory.
 
 ```yaml
 - name: Never invalidate the cache
-  uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
   with:
     enable-cache: true
     cache-dependency-glob: ""
@@ -128,7 +131,7 @@ By default, the cache will be restored.
 
 ```yaml
 - name: Don't restore an existing cache
-  uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
   with:
     enable-cache: true
     restore-cache: false
@@ -142,7 +145,7 @@ By default, the cache will be saved.
 
 ```yaml
 - name: Don't save the cache after the run
-  uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
   with:
     enable-cache: true
     save-cache: false
@@ -168,35 +171,34 @@ It defaults to `setup-uv-cache` in the `TMP` dir, `D:\a\_temp\setup-uv-cache` on
 
 ```yaml
 - name: Define a custom uv cache path
-  uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
   with:
     cache-local-path: "/path/to/cache"
 ```
 
-## Disable cache pruning
+## Enable cache pruning
 
-By default, the uv cache is pruned after every run, removing pre-built wheels, but retaining any
-wheels that were built from source. On GitHub-hosted runners, it's typically faster to omit those
-pre-built wheels from the cache (and instead re-download them from the registry on each run).
-However, on self-hosted or local runners, preserving the cache may be more efficient. See
-the [documentation](https://docs.astral.sh/uv/concepts/cache/#caching-in-continuous-integration) for
-more information.
+By default, the entire uv cache is persisted across runs. On GitHub-hosted runners, it's typically
+faster to prune the cache before saving it, removing pre-built wheels, but retaining any wheels that
+were built from source. The pre-built wheels are then re-downloaded from the registry on each run.
+See the [documentation](https://docs.astral.sh/uv/concepts/cache/#caching-in-continuous-integration)
+for more information.
 
-If you want to persist the entire cache across runs, disable cache pruning with the `prune-cache`
-input.
+If you want to prune the cache before saving it, enable cache pruning with the `prune-cache` input.
 
 ```yaml
-- name: Don't prune the cache before saving it
-  uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+- name: Prune the cache before saving it
+  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
   with:
     enable-cache: true
-    prune-cache: false
+    prune-cache: true
 ```
 
 ## Cache Python installs
 
 By default, the Python install dir (`uv python dir` / `UV_PYTHON_INSTALL_DIR`) is not cached,
-for the same reason that the dependency cache is pruned.
+for the same reason that pruning the dependency cache can improve performance on GitHub-hosted
+runners.
 If you want to cache Python installs along with your dependencies, set the `cache-python` input to `true`.
 
 Note that this only caches Python versions that uv actually installs into `UV_PYTHON_INSTALL_DIR`
@@ -205,7 +207,7 @@ To force managed Python installs, set `UV_PYTHON_PREFERENCE=only-managed`.
 
 ```yaml
 - name: Cache Python installs
-  uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
   with:
     enable-cache: true
     cache-python: true
@@ -223,7 +225,7 @@ If you want to ignore this, set the `ignore-nothing-to-cache` input to `true`.
 
 ```yaml
 - name: Ignore nothing to cache
-  uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
   with:
     enable-cache: true
     ignore-nothing-to-cache: true

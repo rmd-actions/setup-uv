@@ -1,4 +1,11 @@
-import { beforeEach, describe, expect, it, jest } from "@jest/globals";
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  jest,
+} from "@jest/globals";
 
 // biome-ignore lint/suspicious/noExplicitAny: Mock requires flexible typing in tests.
 const mockFetch = jest.fn<any>();
@@ -13,10 +20,12 @@ jest.unstable_mockModule("../../src/utils/fetch", () => ({
 }));
 
 const {
+  MANIFEST_FETCH_ATTEMPTS,
   clearManifestCache,
   fetchManifest,
   getAllVersions,
   getArtifact,
+  getFirstMatchingVersion,
   getLatestVersion,
   parseManifest,
 } = await import("../../src/download/manifest");
@@ -33,6 +42,7 @@ function createMockResponse(
   data: string,
 ) {
   return {
+    body: null,
     ok,
     status,
     statusText,
@@ -40,10 +50,39 @@ function createMockResponse(
   };
 }
 
+function createStreamingMockResponse(
+  chunks: string[],
+  cancel: () => void | Promise<void> = () => {},
+  close = false,
+) {
+  const encoder = new TextEncoder();
+  return {
+    body: new ReadableStream<Uint8Array>({
+      cancel,
+      start(controller) {
+        for (const chunk of chunks) {
+          controller.enqueue(encoder.encode(chunk));
+        }
+        if (close) {
+          controller.close();
+        }
+      },
+    }),
+    ok: true,
+    status: 200,
+    statusText: "OK",
+    text: async () => chunks.join(""),
+  };
+}
+
 describe("manifest", () => {
   beforeEach(() => {
     clearManifestCache();
     mockFetch.mockReset();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   describe("fetchManifest", () => {
@@ -57,6 +96,34 @@ describe("manifest", () => {
       expect(versions).toHaveLength(2);
       expect(versions[0]?.version).toBe("0.9.26");
       expect(versions[1]?.version).toBe("0.9.25");
+    });
+
+    it("retries network failures", async () => {
+      jest.useFakeTimers();
+      mockFetch
+        .mockRejectedValueOnce(new Error("request timed out"))
+        .mockResolvedValueOnce(
+          createMockResponse(true, 200, "OK", sampleManifestResponse),
+        );
+
+      const result = fetchManifest();
+      await jest.runAllTimersAsync();
+
+      await expect(result).resolves.toHaveLength(2);
+      expect(mockFetch).toHaveBeenCalledTimes(2);
+    });
+
+    it("stops after the configured number of network failures", async () => {
+      jest.useFakeTimers();
+      mockFetch.mockRejectedValue(new Error("request timed out"));
+
+      const result = expect(fetchManifest()).rejects.toThrow(
+        "request timed out",
+      );
+      await jest.runAllTimersAsync();
+
+      await result;
+      expect(mockFetch).toHaveBeenCalledTimes(MANIFEST_FETCH_ATTEMPTS);
     });
 
     it("throws on a failed fetch", async () => {
@@ -104,6 +171,75 @@ describe("manifest", () => {
       await expect(
         getLatestVersion("https://example.com/custom.ndjson"),
       ).resolves.toBe("0.9.26");
+    });
+
+    it("stops reading the default manifest after the first record", async () => {
+      const [latestVersion] = sampleManifestResponse.split("\n");
+      const cancel = jest.fn();
+      mockFetch.mockResolvedValue(
+        createStreamingMockResponse(
+          [
+            latestVersion.slice(0, 100),
+            `${latestVersion.slice(100)}\n`,
+            "invalid trailing data\n",
+          ],
+          cancel,
+        ),
+      );
+
+      await expect(getLatestVersion()).resolves.toBe("0.9.26");
+      await expect(
+        getArtifact("0.9.26", "aarch64", "apple-darwin"),
+      ).resolves.toBeDefined();
+
+      expect(cancel).toHaveBeenCalledTimes(1);
+      expect(mockFetch).toHaveBeenCalledTimes(1);
+    });
+
+    it("does not fail when canceling the remaining response fails", async () => {
+      const [latestVersion] = sampleManifestResponse.split("\n");
+      mockFetch.mockResolvedValue(
+        createStreamingMockResponse([`${latestVersion}\n`], () =>
+          Promise.reject(new Error("cancel failed")),
+        ),
+      );
+
+      await expect(getLatestVersion()).resolves.toBe("0.9.26");
+    });
+  });
+
+  describe("getFirstMatchingVersion", () => {
+    it("stops at the first matching record", async () => {
+      const cancel = jest.fn();
+      mockFetch.mockResolvedValue(
+        createStreamingMockResponse(
+          [`${sampleManifestResponse}\n`, "invalid trailing data\n"],
+          cancel,
+        ),
+      );
+
+      await expect(
+        getFirstMatchingVersion((version) => version === "0.9.25"),
+      ).resolves.toBe("0.9.25");
+
+      expect(cancel).toHaveBeenCalledTimes(1);
+    });
+
+    it("caches a fully consumed response stream", async () => {
+      mockFetch.mockResolvedValue(
+        createStreamingMockResponse(
+          [`${sampleManifestResponse}\n`],
+          undefined,
+          true,
+        ),
+      );
+
+      await expect(
+        getFirstMatchingVersion((version) => version === "0.0.1"),
+      ).resolves.toBeUndefined();
+      await expect(getLatestVersion()).resolves.toBe("0.9.26");
+
+      expect(mockFetch).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -167,6 +303,60 @@ describe("manifest", () => {
       );
 
       expect(artifact).toBeUndefined();
+    });
+
+    it("does not cache records from a failed stream read", async () => {
+      const [latestVersion] = sampleManifestResponse.split("\n");
+      mockFetch
+        .mockResolvedValueOnce(
+          createStreamingMockResponse([
+            `${latestVersion}\n`,
+            "invalid manifest record\n",
+          ]),
+        )
+        .mockResolvedValueOnce(
+          createMockResponse(true, 200, "OK", sampleManifestResponse),
+        );
+
+      await expect(
+        getArtifact("0.0.1", "aarch64", "apple-darwin"),
+      ).rejects.toThrow("Failed to parse manifest data");
+      await expect(getLatestVersion()).resolves.toBe("0.9.26");
+
+      expect(mockFetch).toHaveBeenCalledTimes(2);
+    });
+
+    it("does not cache records when the response stream fails", async () => {
+      const [latestVersion] = sampleManifestResponse.split("\n");
+      const encoder = new TextEncoder();
+      let sentVersion = false;
+      const body = new ReadableStream<Uint8Array>({
+        pull(controller) {
+          if (!sentVersion) {
+            sentVersion = true;
+            controller.enqueue(encoder.encode(`${latestVersion}\n`));
+            return;
+          }
+          controller.error(new Error("response stream failed"));
+        },
+      });
+      mockFetch
+        .mockResolvedValueOnce({
+          body,
+          ok: true,
+          status: 200,
+          statusText: "OK",
+        })
+        .mockResolvedValueOnce(
+          createMockResponse(true, 200, "OK", sampleManifestResponse),
+        );
+
+      await expect(
+        getArtifact("0.0.1", "aarch64", "apple-darwin"),
+      ).rejects.toThrow("response stream failed");
+      await expect(getLatestVersion()).resolves.toBe("0.9.26");
+
+      expect(mockFetch).toHaveBeenCalledTimes(2);
     });
   });
 
