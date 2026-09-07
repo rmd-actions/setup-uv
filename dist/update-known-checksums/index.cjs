@@ -6,7 +6,11 @@ var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __commonJS = (cb, mod) => function __require() {
-  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  try {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  } catch (e) {
+    throw mod = 0, e;
+  }
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
@@ -9157,7 +9161,7 @@ var require_readable = __commonJS({
   "node_modules/@actions/http-client/node_modules/undici/lib/api/readable.js"(exports2, module2) {
     "use strict";
     var assert = require("node:assert");
-    var { Readable } = require("node:stream");
+    var { Readable: Readable2 } = require("node:stream");
     var { RequestAbortedError, NotSupportedError, InvalidArgumentError, AbortError } = require_errors();
     var util = require_util();
     var { ReadableStreamFrom } = require_util();
@@ -9169,7 +9173,7 @@ var require_readable = __commonJS({
     var kContentLength = /* @__PURE__ */ Symbol("kContentLength");
     var noop = () => {
     };
-    var BodyReadable = class extends Readable {
+    var BodyReadable = class extends Readable2 {
       constructor({
         resume,
         abort,
@@ -9511,7 +9515,7 @@ var require_api_request = __commonJS({
   "node_modules/@actions/http-client/node_modules/undici/lib/api/api-request.js"(exports2, module2) {
     "use strict";
     var assert = require("node:assert");
-    var { Readable } = require_readable();
+    var { Readable: Readable2 } = require_readable();
     var { InvalidArgumentError, RequestAbortedError } = require_errors();
     var util = require_util();
     var { getResolveErrorBodyCallback } = require_util3();
@@ -9606,7 +9610,7 @@ var require_api_request = __commonJS({
         const parsedHeaders = responseHeaders === "raw" ? util.parseHeaders(rawHeaders) : headers;
         const contentType = parsedHeaders["content-type"];
         const contentLength = parsedHeaders["content-length"];
-        const res = new Readable({
+        const res = new Readable2({
           resume,
           abort,
           contentType,
@@ -9921,7 +9925,7 @@ var require_api_pipeline = __commonJS({
   "node_modules/@actions/http-client/node_modules/undici/lib/api/api-pipeline.js"(exports2, module2) {
     "use strict";
     var {
-      Readable,
+      Readable: Readable2,
       Duplex,
       PassThrough
     } = require("node:stream");
@@ -9935,7 +9939,7 @@ var require_api_pipeline = __commonJS({
     var { addSignal, removeSignal } = require_abort_signal();
     var assert = require("node:assert");
     var kResume = /* @__PURE__ */ Symbol("resume");
-    var PipelineRequest = class extends Readable {
+    var PipelineRequest = class extends Readable2 {
       constructor() {
         super({ autoDestroy: true });
         this[kResume] = null;
@@ -9952,7 +9956,7 @@ var require_api_pipeline = __commonJS({
         callback(err);
       }
     };
-    var PipelineResponse = class extends Readable {
+    var PipelineResponse = class extends Readable2 {
       constructor(resume) {
         super({ autoDestroy: true });
         this[kResume] = resume;
@@ -13277,7 +13281,7 @@ var require_fetch = __commonJS({
       subresourceSet
     } = require_constants3();
     var EE = require("node:events");
-    var { Readable, pipeline, finished } = require("node:stream");
+    var { Readable: Readable2, pipeline, finished } = require("node:stream");
     var { addAbortListener, isErrored, isReadable, bufferToLowerCasedHeaderName } = require_util();
     var { dataURLProcessor, serializeAMimeType, minimizeSupportedMimeType } = require_data_url();
     var { getGlobalDispatcher } = require_global2();
@@ -14178,7 +14182,7 @@ var require_fetch = __commonJS({
                 headersList.append(bufferToLowerCasedHeaderName(rawHeaders[i]), rawHeaders[i + 1].toString("latin1"), true);
               }
               location = headersList.get("location", true);
-              this.body = new Readable({ read: resume });
+              this.body = new Readable2({ read: resume });
               const decoders = [];
               const willFollow = location && request.redirect === "follow" && redirectStatusSet.has(status);
               if (request.method !== "HEAD" && request.method !== "CONNECT" && !nullBodyStatus.includes(status) && !willFollow) {
@@ -31244,7 +31248,7 @@ var require_readable2 = __commonJS({
     "use strict";
     var assert = require("node:assert");
     var { addAbortListener } = require("node:events");
-    var { Readable } = require("node:stream");
+    var { Readable: Readable2 } = require("node:stream");
     var { RequestAbortedError, NotSupportedError, InvalidArgumentError, AbortError } = require_errors2();
     var util = require_util9();
     var { ReadableStreamFrom } = require_util9();
@@ -31258,7 +31262,7 @@ var require_readable2 = __commonJS({
     var kBytesRead = /* @__PURE__ */ Symbol("kBytesRead");
     var noop = () => {
     };
-    var BodyReadable = class extends Readable {
+    var BodyReadable = class extends Readable2 {
       /**
        * @param {object} opts
        * @param {(this: Readable, size: number) => void} opts.resume
@@ -31647,7 +31651,7 @@ var require_api_request2 = __commonJS({
     "use strict";
     var assert = require("node:assert");
     var { AsyncResource } = require("node:async_hooks");
-    var { Readable } = require_readable2();
+    var { Readable: Readable2 } = require_readable2();
     var { InvalidArgumentError, RequestAbortedError } = require_errors2();
     var util = require_util9();
     function noop() {
@@ -31731,7 +31735,7 @@ var require_api_request2 = __commonJS({
         const parsedHeaders = headers;
         const contentType = parsedHeaders?.["content-type"];
         const contentLength = parsedHeaders?.["content-length"];
-        const res = new Readable({
+        const res = new Readable2({
           resume: () => controller.resume(),
           abort: (reason) => controller.abort(reason),
           contentType,
@@ -32107,7 +32111,7 @@ var require_api_pipeline2 = __commonJS({
   "node_modules/undici/lib/api/api-pipeline.js"(exports2, module2) {
     "use strict";
     var {
-      Readable,
+      Readable: Readable2,
       Duplex,
       PassThrough
     } = require("node:stream");
@@ -32124,7 +32128,7 @@ var require_api_pipeline2 = __commonJS({
     function noop() {
     }
     var kResume = /* @__PURE__ */ Symbol("resume");
-    var PipelineRequest = class extends Readable {
+    var PipelineRequest = class extends Readable2 {
       constructor() {
         super({ autoDestroy: true });
         this[kResume] = null;
@@ -32142,7 +32146,7 @@ var require_api_pipeline2 = __commonJS({
         callback(err);
       }
     };
-    var PipelineResponse = class extends Readable {
+    var PipelineResponse = class extends Readable2 {
       constructor(resume) {
         super({ autoDestroy: true });
         this[kResume] = resume;
@@ -36759,7 +36763,7 @@ var require_cache3 = __commonJS({
   "node_modules/undici/lib/interceptor/cache.js"(exports2, module2) {
     "use strict";
     var assert = require("node:assert");
-    var { Readable } = require("node:stream");
+    var { Readable: Readable2 } = require("node:stream");
     var util = require_util9();
     var CacheHandler = require_cache_handler();
     var MemoryCacheStore = require_memory_cache_store();
@@ -36855,7 +36859,7 @@ var require_cache3 = __commonJS({
       return dispatch(opts, new CacheHandler(globalOpts, cacheKey, handler));
     }
     function sendCachedValue(handler, opts, result, age, context, isStale2) {
-      const stream = util.isStream(result.body) ? result.body : Readable.from(result.body ?? []);
+      const stream = util.isStream(result.body) ? result.body : Readable2.from(result.body ?? []);
       assert(!stream.destroyed, "stream should not be destroyed");
       assert(!stream.readableDidRead, "stream should not be readableDidRead");
       const controller = {
@@ -39978,7 +39982,7 @@ var require_fetch2 = __commonJS({
       subresourceSet
     } = require_constants8();
     var EE = require("node:events");
-    var { Readable, pipeline, finished, isErrored, isReadable } = require("node:stream");
+    var { Readable: Readable2, pipeline, finished, isErrored, isReadable } = require("node:stream");
     var { addAbortListener, bufferToLowerCasedHeaderName } = require_util9();
     var { dataURLProcessor, serializeAMimeType, minimizeSupportedMimeType } = require_data_url2();
     var { getGlobalDispatcher } = require_global4();
@@ -40940,7 +40944,7 @@ var require_fetch2 = __commonJS({
                 const headersList = new HeadersList();
                 appendHeadersListFromResponseHeaders(headersList, headers, rawHeaders);
                 const location = headersList.get("location", true);
-                this.body = new Readable({ read: () => controller.resume() });
+                this.body = new Readable2({ read: () => controller.resume() });
                 const willFollow = location && request.redirect === "follow" && redirectStatusSet.has(status);
                 const decoders = [];
                 if (request.method !== "HEAD" && request.method !== "CONNECT" && !nullBodyStatus.includes(status) && !willFollow) {
@@ -45701,6 +45705,114 @@ var semver = __toESM(require_semver(), 1);
 
 // src/download/checksum/known-checksums.ts
 var KNOWN_CHECKSUMS = {
+  "aarch64-apple-darwin-0.12.1": "77d2906988e8074fd43f2f329ec452ebbf9b0c257ba1c66451c71de70a6baf42",
+  "aarch64-pc-windows-msvc-0.12.1": "9bc7c18e616230fa2dc6fb24bc3afde18a95c2b5c9433de747e9502c66041568",
+  "aarch64-unknown-linux-gnu-0.12.1": "769d373e146692c639b5fbaae33b331c297a32e03d30448772051902df52bbf4",
+  "aarch64-unknown-linux-musl-0.12.1": "ce218dad9eb48a39dd86160bec6291fac7275f20a9cabcc4bc10dd2c757208f8",
+  "arm-unknown-linux-musleabihf-0.12.1": "fba356be49629c5e0c0270fb3c55def0d83a7abe014ea857b13d14e0cbeabbbc",
+  "armv7-unknown-linux-gnueabihf-0.12.1": "bfca453bdf4ea6ce149f9d5be0589fc2e17a22d434c66c2f374a802dabb13cb5",
+  "armv7-unknown-linux-musleabihf-0.12.1": "0cb3e6ccfedce3cf3f5f95e3a5ddb32977f54025ea74f91993072ebcf91f9df2",
+  "i686-pc-windows-msvc-0.12.1": "9b51c33d307a8ab9e9dfd88d4ae1491761f63de0bffa3cec96bec536491c9b97",
+  "i686-unknown-linux-gnu-0.12.1": "4c6f5d77215cf40ddd388215dfdac46471d074aeba62163f3e7fab6892645f95",
+  "i686-unknown-linux-musl-0.12.1": "be4d42582284456dae2ff4bf622c4169d1e6b8d1cd0e516658d6ba01f2a57dfa",
+  "powerpc64le-unknown-linux-gnu-0.12.1": "9f3ebd5e5ce0f7a212a8d1326995612896cdcaa4ef571194d3b061a2d0d4d92e",
+  "riscv64gc-unknown-linux-gnu-0.12.1": "dda637a8f2f11b73a3e8da35c7909772beb49799aea61bacb04c2e7d2455b939",
+  "riscv64gc-unknown-linux-musl-0.12.1": "31806babab570f6cab8bfdaaaf6890360f1efa4e122372ad73193b70326b8f83",
+  "s390x-unknown-linux-gnu-0.12.1": "58132e9675680eb952b9794206a7ee98b528c1e664e6f80f55fb4972ffb7f269",
+  "x86_64-apple-darwin-0.12.1": "69d9f9a00337f25a50dcb13882052da08b8469bac11091c98c5694c3c6721467",
+  "x86_64-pc-windows-msvc-0.12.1": "8fcb0cb46e1229065e344758980924e569bef5882ef45f46fada8fb24e06b74a",
+  "x86_64-unknown-linux-gnu-0.12.1": "90b2f223fb69d19db49e117da601f64978593417988530aa733d456141b4bcbb",
+  "x86_64-unknown-linux-musl-0.12.1": "47823f814693bab8623308341369190de30b5c621eec5b1ee20352eae8c7982c",
+  "aarch64-apple-darwin-0.12.0": "2b9e582af54f84fa50c115427451a6c13e80f43b52f8282b8af5791077317bbf",
+  "aarch64-pc-windows-msvc-0.12.0": "60c12dc34a8ff0269d7744a3a94506fa8f140618a82194b7bf7834fa789a765b",
+  "aarch64-unknown-linux-gnu-0.12.0": "2c5d6e3092cc5223b10ff403880cc75121bf64e84644e7a0c69f643b0d89ac95",
+  "aarch64-unknown-linux-musl-0.12.0": "936fbbf20188a2b1c66bce3dca3f4009a5c9cdf12bb2bbd084e71926f75d6a15",
+  "arm-unknown-linux-musleabihf-0.12.0": "b5879d87fe1fd7a3c8fb27346339222acc5628000002024e7f4d114f1e67a55d",
+  "armv7-unknown-linux-gnueabihf-0.12.0": "a84cc572bf83d82c9fb6ce6aaed37da98789420a84f6f754b80ba519d8683345",
+  "armv7-unknown-linux-musleabihf-0.12.0": "d4a3383585057824e16fa7f0b24e9f0fecf4b37d29e6d4c7f26b76a5959116e3",
+  "i686-pc-windows-msvc-0.12.0": "4b7f9319eeb79a8e6204952742ac5ef6a56a096dc9438f416bfa60a374d6e94d",
+  "i686-unknown-linux-gnu-0.12.0": "9399d51a33779007692e84e0395a78af7adfd21f2cc10da16ea2c9b6ad7dc260",
+  "i686-unknown-linux-musl-0.12.0": "7a1994b07077bd67ef76dab2107dfad576436951993969a93067f3217f7fa1fb",
+  "powerpc64le-unknown-linux-gnu-0.12.0": "9a4a9b50a27111545b16821449f79fa646bad4b14f0811d6f70ad77f627983a2",
+  "riscv64gc-unknown-linux-gnu-0.12.0": "a55f970e88e7acb73a21a9efe892caff40e1a7b928770a2b844fdd7d74d8070e",
+  "riscv64gc-unknown-linux-musl-0.12.0": "01253909dec1d5cdd836f52ed70a2fc1a7017ec723a724b7315b55f2025728a1",
+  "s390x-unknown-linux-gnu-0.12.0": "3737b6d3fe7100ade46df0aae3d59564e7bbbb2fcb926186209e103e942535ab",
+  "x86_64-apple-darwin-0.12.0": "d41593beaefc54bab7d062af0ef6ca093bfb81d001d58ebbef39e44423f9c496",
+  "x86_64-pc-windows-msvc-0.12.0": "68200e25de594df92387186bbfb9d9df606ec1d87efaa0ae0c7f690970e53db6",
+  "x86_64-unknown-linux-gnu-0.12.0": "eaf842262aa1c418d8ecc5605f02ee1ebfd369124fa48548e85f9481a47831a9",
+  "x86_64-unknown-linux-musl-0.12.0": "3340a9d8cffc4d801bc1a7459ebfaf5790c79400720d9b6963d806f058526684",
+  "aarch64-apple-darwin-0.11.33": "d75e3d2bfc203d17388edaabd3aa37958edbcbfc36219e3ee0d31bb080b4baa2",
+  "aarch64-pc-windows-msvc-0.11.33": "6eb261d3ad61b35e2a6cfd997b296b908ff74d6199717eca81c3c73e1df7fbc7",
+  "aarch64-unknown-linux-gnu-0.11.33": "9ed88a9a42de3102f9704d021ab186fdf8a69a7ad9a1d3f3486ac6b1e55d6141",
+  "aarch64-unknown-linux-musl-0.11.33": "e256e5cf23f8c2e7d4d83f029acd662cbe7275ff24268ce1d6d2ba9016855268",
+  "arm-unknown-linux-musleabihf-0.11.33": "8c973de331a13f83a1b9bc358b6e7bfa5e5e1f015ff93545dc04839c868e20fe",
+  "armv7-unknown-linux-gnueabihf-0.11.33": "5446f812e7f5512198adaf60d2c66672a41d9676e86686819222baef021bce5b",
+  "armv7-unknown-linux-musleabihf-0.11.33": "9e0f6904f62997e34ee8795d615ba2974f31b0461674572d05859ba0b9402290",
+  "i686-pc-windows-msvc-0.11.33": "10b09a49823dd561bb4ececee1eea2c29cb58982f7253865ec27d23fd131daa7",
+  "i686-unknown-linux-gnu-0.11.33": "b5b82a4eedf863f855acba77bb51fc7c1f399b276fdbfdff63edf35bb2a2fdfb",
+  "i686-unknown-linux-musl-0.11.33": "af050631909811e945a9a8b087cc071038bfe25cfa5ff0b7afd17fb468522f43",
+  "powerpc64le-unknown-linux-gnu-0.11.33": "eee721adf229681b98cdd868d4991886bd91527ecbdb6fa778feb79f46d4be75",
+  "riscv64gc-unknown-linux-gnu-0.11.33": "bbb1fc2e25beb8bf0ee4342e70bb0caacb74a7503a02e04cb009aff28a182cfd",
+  "riscv64gc-unknown-linux-musl-0.11.33": "ff4d248fff98c1c6ea12088ae002c07b861278bfc2c41e31ac0ecc1795ddb2f0",
+  "s390x-unknown-linux-gnu-0.11.33": "bbb4740bd2596d2da979ad721258761fa0d4c5bb6ed151356c2146c150edfd21",
+  "x86_64-apple-darwin-0.11.33": "f1b919f740bd6be1d014ff58c4271b0779a32198adfb19ad9c5d1c4d9b2b4301",
+  "x86_64-pc-windows-msvc-0.11.33": "c253ce868ad48d29327b661452ce184c9e333e6d6f5bc8d6fcfbf4dd52b83442",
+  "x86_64-unknown-linux-gnu-0.11.33": "aa9fca823c03289fb6e3460b3dc864f3ea895cafaf9b99247701a67b17d1b018",
+  "x86_64-unknown-linux-musl-0.11.33": "3e95b84d8a8b3390c91584d4fd0c4d326e951da2b8fb15a76719368af2795424",
+  "aarch64-apple-darwin-0.11.32": "ed336d0ba49db8ef89b2b41fffa372ce63bd032f22a56f001c265891aec32829",
+  "aarch64-pc-windows-msvc-0.11.32": "a7427ea0440bb826b6716d1837ff3d173b8e7d496cb09ee8f456b4e023a2fdcd",
+  "aarch64-unknown-linux-gnu-0.11.32": "4d4fa08d95b06642e5800df6a22bd71455f23f988269e18da2847971d8c0bf31",
+  "aarch64-unknown-linux-musl-0.11.32": "d70cdae687feb6aad9a09fe8d686df8c8efaf69a1007fa581379a2025adc10a5",
+  "arm-unknown-linux-musleabihf-0.11.32": "43b1c42483d15e94747699b5f718e829144d2b1b117e1c1658742e73d05527a3",
+  "armv7-unknown-linux-gnueabihf-0.11.32": "593e0f6b92cef908b23e3e3e0da2fd8ae24392afdb70eed05651869fea4a1b02",
+  "armv7-unknown-linux-musleabihf-0.11.32": "cc169fc42b63970cb0cc10a1658c9833e79a5bfde8915ec5f6f5316d9e0cb95f",
+  "i686-pc-windows-msvc-0.11.32": "e54e814a3963af3af607940f142169312d7550d44db8e2daa2bf6c524554ac3c",
+  "i686-unknown-linux-gnu-0.11.32": "d4c53923c44dd060a42dbc6b88e349c86676d779b01603329d8c6b8f916e74cd",
+  "i686-unknown-linux-musl-0.11.32": "7704bf0270e1ef8421608c585e8016411a625314125fce473e01446fdcb1fcf3",
+  "powerpc64le-unknown-linux-gnu-0.11.32": "0afff437b499f5919045fd0095b52dec18d818771f9a6bd0be0ff027b427fb16",
+  "riscv64gc-unknown-linux-gnu-0.11.32": "f10954d2263d407f6ffa6bfdd458d0fc0918f097f851ca3cf4907d4f7ebf2dae",
+  "riscv64gc-unknown-linux-musl-0.11.32": "3c58fc5e82589a77b2409a6c308f1a55361c29130cb3ff239e850d413433f97f",
+  "s390x-unknown-linux-gnu-0.11.32": "9922ba31cd582f4d762ac88a3cfdf339be599063c689c64c36916f04139ed43d",
+  "x86_64-apple-darwin-0.11.32": "77f5ca26c0de20e992a3677a174fe1121ee25c36f9b1434a863f75bf077a05eb",
+  "x86_64-pc-windows-msvc-0.11.32": "acfde570451cfdb8689fa159a138ee805ba4e241c466432750302c86254b0984",
+  "x86_64-unknown-linux-gnu-0.11.32": "aab924fd522efd06f1c5f3b93a243864fc453132c94b2dc49f1371b528a4b967",
+  "x86_64-unknown-linux-musl-0.11.32": "1fd052f196108d87e61fc3d98fe06b4ec758c9a1eb1466a6fd1a436fe45885f2",
+  "aarch64-apple-darwin-0.11.31": "b2b93e82a6786f9c7cb89fd4ca0e859a147b292ae8f6f95784f9742f0efec39e",
+  "aarch64-pc-windows-msvc-0.11.31": "060da44c6474680ce9ed31f866a496cb06979dbea86de8fe24e0f22c48ac992b",
+  "aarch64-unknown-linux-gnu-0.11.31": "d74f23949fd07be4970f293d06ca99d87cd2a78a341c3d7b7fc0df7bc2d8a145",
+  "aarch64-unknown-linux-musl-0.11.31": "49cb5ffce40cc9c85355caa8104f7b61c40a8daac7334f4bc841cad1a7bb359e",
+  "arm-unknown-linux-musleabihf-0.11.31": "0f71f9f2b37d1f82dd225662b3ecb10c3ff114a5828819173015dbc86d2fa0dd",
+  "armv7-unknown-linux-gnueabihf-0.11.31": "de23124095c4df154d3807495b59f1985d8d9460bd70d3de61fef2034756bd61",
+  "armv7-unknown-linux-musleabihf-0.11.31": "9cb5373c1c2e6939077dcc60723a79dc348dd3c9942f2559d19696d16ac34990",
+  "i686-pc-windows-msvc-0.11.31": "4b4d07862b81275ea1a507d5e80774b0f38502493f854cbb585a987c0155d627",
+  "i686-unknown-linux-gnu-0.11.31": "85c71ad3f7c189e77bef0d94bcc3c1cbf8792695efe616dec86a389fbb1ee72b",
+  "i686-unknown-linux-musl-0.11.31": "160a9e19934879492f5b92c8eb132b39ee19858a406c9f3224c05c7b7cd70e59",
+  "powerpc64le-unknown-linux-gnu-0.11.31": "43e21695092a3c58aa3d364c139bbeab838baba662f0e9f37aa78e52305289e3",
+  "riscv64gc-unknown-linux-gnu-0.11.31": "7fa2c496e1ca94c7bcfcc9361f7928c4126d63fc4588dee4c8a2465332b60636",
+  "riscv64gc-unknown-linux-musl-0.11.31": "b300fe07dd1fb98e8608277d7b822ff637e25ee839674645f7ddcbc42199a39b",
+  "s390x-unknown-linux-gnu-0.11.31": "42114face40b846720980dc3f6e2c1b4676d8bf56c8c551586b249be9137cb84",
+  "x86_64-apple-darwin-0.11.31": "33ee6bd62b57fcd77a499deb54e4432dc1e1a2f3d34930ba987ad8b43f9c7bc7",
+  "x86_64-pc-windows-msvc-0.11.31": "410c2fd3126ff621c9450a21cfc200002c7540dc48d130069a8f619cdb0a811b",
+  "x86_64-unknown-linux-gnu-0.11.31": "8cc1cd82d434ec565376f98bd938d4b715b5791a80ff2d3aa78821cf85091b4b",
+  "x86_64-unknown-linux-musl-0.11.31": "89048b7e30a6c459fa7e8f2e91cfdc413dc004dcbddc6c2af5e09df123e3246d",
+  "aarch64-apple-darwin-0.11.30": "9bed3567d496d8dab84ecf7a1247551ac94ef1baaebb7b65df008dd93e9dc357",
+  "aarch64-pc-windows-msvc-0.11.30": "0edc44e7f23668bce7985facd96b2fe04a4d8ea8edfc7e53294afd8993e960fc",
+  "aarch64-unknown-linux-gnu-0.11.30": "8c11d90f5f66d232930cf8ae3a085c39877690d409e10878234802b028b20e2a",
+  "aarch64-unknown-linux-musl-0.11.30": "7562a40e4e08b1bfd566bd6aeca55a16ee5ac45211554543e8cdb3c395b47416",
+  "arm-unknown-linux-musleabihf-0.11.30": "58967610a6f14f2785e3be3b1b47553b5ff92c3d51bc0f1d9d90d83dc224f0db",
+  "armv7-unknown-linux-gnueabihf-0.11.30": "8e2d2ab63a37af47c1b4126c5871ee191b983a10670af91d8ef0bee198292931",
+  "armv7-unknown-linux-musleabihf-0.11.30": "33b515887e04c79d4d5de5967b8278b9dac1853cc8d657bf77052bab16a6629f",
+  "i686-pc-windows-msvc-0.11.30": "8ceaa74889e30d64adf55d7ad7acce6ed101fb036155bf2d7613715c9d9533c1",
+  "i686-unknown-linux-gnu-0.11.30": "e53221602d83b03c63a5e262bfcbf0f5f6e5972e93847498418bdb42005f04e7",
+  "i686-unknown-linux-musl-0.11.30": "f66898852a6a745a8c0ab0a26e046857ee77c9f24e4a3b64cb078753490b3978",
+  "powerpc64le-unknown-linux-gnu-0.11.30": "81a71fa495239c372b3b0c1bb2509167da00cf307323a2d2a39cbc92f0c6d5d1",
+  "riscv64gc-unknown-linux-gnu-0.11.30": "e2d65822d8f668f6d055679dba4937e386764b9561f9d1269d3bc9e7140f7491",
+  "riscv64gc-unknown-linux-musl-0.11.30": "3d75e26ace5e679e5de26106a71ee775af5c7f7ad872cd04f33b4d53c523a707",
+  "s390x-unknown-linux-gnu-0.11.30": "a30f253aca1291dbcdbb7f76c754235f268ff84d106a595f7d1abf337ab22ac1",
+  "x86_64-apple-darwin-0.11.30": "ce285fbbfbe294b1e1bc6c87c8b59d9622b85383b88b2b132a2df5c73e83d7c1",
+  "x86_64-pc-windows-msvc-0.11.30": "be8d78c992312212e5cc05e9f9de3fa996db73b7c86a186dfb9231eb9f91d33e",
+  "x86_64-unknown-linux-gnu-0.11.30": "04bc7d180d6138bf6dc08387acf507a823f397a98fea55da36b0ccc7fbce3b68",
+  "x86_64-unknown-linux-musl-0.11.30": "023fdd3b59fccfb67b365c69fb34182aaaed1d685d367a57571e3c1468a4c70c",
   "aarch64-apple-darwin-0.11.29": "61c04acc52a33ef0f331e494bdfbedcdb6c26c6970c022ed3699e5860f8930e3",
   "aarch64-pc-windows-msvc-0.11.29": "55b597ae81bc29531a7c352a1431a8a73cc2755d7a5b9ec454580cbe02e5154f",
   "aarch64-unknown-linux-gnu-0.11.29": "94500fb064ae3c971a873cba64d94694c50677e0a4dbf78735c80509e7429919",
@@ -50701,6 +50813,10 @@ async function updateChecksums(filePath, checksumEntries) {
   await import_node_fs.promises.writeFile(filePath, content);
 }
 
+// src/download/manifest.ts
+var import_node_readline = require("node:readline");
+var import_node_stream = require("node:stream");
+
 // src/utils/constants.ts
 var VERSIONS_MANIFEST_URL = "https://raw.githubusercontent.com/astral-sh/versions/main/v1/uv.ndjson";
 
@@ -50745,21 +50861,15 @@ function info2(msg) {
 // src/download/manifest.ts
 var cachedManifestData = /* @__PURE__ */ new Map();
 async function fetchManifest(manifestUrl = VERSIONS_MANIFEST_URL) {
-  const cachedVersions = cachedManifestData.get(manifestUrl);
-  if (cachedVersions !== void 0) {
+  const cachedManifest = cachedManifestData.get(manifestUrl);
+  if (cachedManifest?.complete === true) {
     debug(`Using cached manifest data from ${manifestUrl}`);
-    return cachedVersions;
+    return cachedManifest.versions;
   }
-  info2(`Fetching manifest data from ${manifestUrl} ...`);
-  const response = await fetch(manifestUrl, {});
-  if (!response.ok) {
-    throw new Error(
-      `Failed to fetch manifest data: ${response.status} ${response.statusText}`
-    );
-  }
+  const response = await fetchManifestResponse(manifestUrl);
   const body = await response.text();
   const versions = parseManifest(body, manifestUrl);
-  cachedManifestData.set(manifestUrl, versions);
+  cachedManifestData.set(manifestUrl, { complete: true, versions });
   return versions;
 }
 function parseManifest(data, sourceDescription) {
@@ -50767,31 +50877,14 @@ function parseManifest(data, sourceDescription) {
   if (trimmed === "") {
     throw new Error(`Manifest at ${sourceDescription} is empty.`);
   }
-  if (trimmed.startsWith("[")) {
-    throw new Error(
-      `Legacy JSON array manifests are no longer supported in ${sourceDescription}. Use the astral-sh/versions manifest format instead.`
-    );
-  }
+  rejectLegacyManifest(trimmed, sourceDescription);
   const versions = [];
   for (const [index, line] of data.split("\n").entries()) {
     const record = line.trim();
     if (record === "") {
       continue;
     }
-    let parsed;
-    try {
-      parsed = JSON.parse(record);
-    } catch (error2) {
-      throw new Error(
-        `Failed to parse manifest data from ${sourceDescription} at line ${index + 1}: ${error2.message}`
-      );
-    }
-    if (!isManifestVersion(parsed)) {
-      throw new Error(
-        `Invalid manifest record in ${sourceDescription} at line ${index + 1}.`
-      );
-    }
-    versions.push(parsed);
+    versions.push(parseManifestRecord(record, sourceDescription, index + 1));
   }
   if (versions.length === 0) {
     throw new Error(`No manifest data found in ${sourceDescription}.`);
@@ -50799,12 +50892,103 @@ function parseManifest(data, sourceDescription) {
   return versions;
 }
 async function getLatestVersion(manifestUrl = VERSIONS_MANIFEST_URL) {
-  const latestVersion = (await fetchManifest(manifestUrl))[0]?.version;
+  const latestVersion = manifestUrl === VERSIONS_MANIFEST_URL ? (await findManifestVersion(() => true))?.version : (await fetchManifest(manifestUrl))[0]?.version;
   if (latestVersion === void 0) {
     throw new Error("No versions found in manifest data");
   }
   debug(`Latest version from manifest: ${latestVersion}`);
   return latestVersion;
+}
+async function fetchManifestResponse(manifestUrl) {
+  info2(`Fetching manifest data from ${manifestUrl} ...`);
+  const response = await fetch(manifestUrl, {});
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch manifest data: ${response.status} ${response.statusText}`
+    );
+  }
+  return response;
+}
+async function findManifestVersion(predicate) {
+  const cachedManifest = cachedManifestData.get(VERSIONS_MANIFEST_URL);
+  const cachedVersion = cachedManifest?.versions.find(predicate);
+  if (cachedVersion !== void 0 || cachedManifest?.complete === true) {
+    return cachedVersion;
+  }
+  const response = await fetchManifestResponse(VERSIONS_MANIFEST_URL);
+  if (response.body === null) {
+    const versions2 = parseManifest(
+      await response.text(),
+      VERSIONS_MANIFEST_URL
+    );
+    cachedManifestData.set(VERSIONS_MANIFEST_URL, {
+      complete: true,
+      versions: versions2
+    });
+    return versions2.find(predicate);
+  }
+  const input = import_node_stream.Readable.fromWeb(response.body);
+  const lines = (0, import_node_readline.createInterface)({ crlfDelay: Number.POSITIVE_INFINITY, input });
+  const versions = [];
+  let complete = false;
+  let lineNumber = 0;
+  let matchedVersion;
+  try {
+    for await (const line of lines) {
+      lineNumber += 1;
+      const record = line.trim();
+      if (record === "") {
+        continue;
+      }
+      if (versions.length === 0) {
+        rejectLegacyManifest(record, VERSIONS_MANIFEST_URL);
+      }
+      const versionData = parseManifestRecord(
+        record,
+        VERSIONS_MANIFEST_URL,
+        lineNumber
+      );
+      versions.push(versionData);
+      if (predicate(versionData)) {
+        matchedVersion = versionData;
+        break;
+      }
+    }
+    complete = matchedVersion === void 0;
+  } finally {
+    lines.close();
+    if (!complete) {
+      input.destroy();
+    }
+  }
+  if (versions.length === 0) {
+    throw new Error(`Manifest at ${VERSIONS_MANIFEST_URL} is empty.`);
+  }
+  cachedManifestData.set(VERSIONS_MANIFEST_URL, { complete, versions });
+  return matchedVersion;
+}
+function parseManifestRecord(record, sourceDescription, lineNumber) {
+  let parsed;
+  try {
+    parsed = JSON.parse(record);
+  } catch (error2) {
+    throw new Error(
+      `Failed to parse manifest data from ${sourceDescription} at line ${lineNumber}: ${error2.message}`
+    );
+  }
+  if (!isManifestVersion(parsed)) {
+    throw new Error(
+      `Invalid manifest record in ${sourceDescription} at line ${lineNumber}.`
+    );
+  }
+  return parsed;
+}
+function rejectLegacyManifest(data, sourceDescription) {
+  if (data.startsWith("[")) {
+    throw new Error(
+      `Legacy JSON array manifests are no longer supported in ${sourceDescription}. Use the astral-sh/versions manifest format instead.`
+    );
+  }
 }
 function isManifestVersion(value) {
   if (!isRecord(value)) {
