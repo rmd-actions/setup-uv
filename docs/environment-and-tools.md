@@ -9,7 +9,7 @@ This allows directly using it in later steps:
 
 ```yaml
 - name: Install the latest version of uv and activate the environment
-  uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
   with:
     activate-environment: true
 - run: uv pip install pip
@@ -17,10 +17,22 @@ This allows directly using it in later steps:
 
 By default, the venv is created at `.venv` inside the `working-directory`.
 
+With `activate-environment: true`, the `python-runtime-id` output identifies the
+venv's Python runtime as reported by uv. This is an opaque identifier that users of the action
+can use as a cache key if necessary; users should not assume anything about
+the stability or structure of the identifier itself.
+
+For example, you can combine it with the platform and dependency information relevant to
+your cache with `id: setup-uv` on the setup step:
+
+```yaml
+key: build-${{ runner.os }}-${{ runner.arch }}-${{ steps.setup-uv.outputs.python-runtime-id }}-${{ hashFiles('uv.lock') }}
+```
+
 You can customize the venv location with `venv-path`, for example to place it in the runner temp directory:
 
 ```yaml
-- uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+- uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
   with:
     activate-environment: true
     venv-path: ${{ runner.temp }}/custom-venv
@@ -51,7 +63,7 @@ are not sufficient, you can provide a custom GitHub token with the necessary per
 
 ```yaml
 - name: Install the latest version of uv with a custom GitHub token
-  uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
   with:
     github-token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
 ```
@@ -69,7 +81,7 @@ input:
 
 ```yaml
 - name: Install the latest version of uv with a custom tool dir
-  uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
   with:
     tool-dir: "/path/to/tool/dir"
 ```
@@ -88,7 +100,7 @@ If you want to change this behaviour (especially on self-hosted runners) you can
 
 ```yaml
 - name: Install the latest version of uv with a custom tool bin dir
-  uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
   with:
     tool-bin-dir: "/path/to/tool-bin/dir"
 ```
@@ -105,7 +117,7 @@ This action supports expanding the `~` character to the user's home directory fo
 
 ```yaml
 - name: Expand the tilde character
-  uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
   with:
     cache-local-path: "~/path/to/cache"
     tool-dir: "~/path/to/tool/dir"
@@ -122,7 +134,7 @@ If you want to ignore this, set the `ignore-empty-workdir` input to `true`.
 
 ```yaml
 - name: Ignore empty workdir
-  uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
   with:
     ignore-empty-workdir: true
 ```
@@ -131,7 +143,7 @@ If you want to ignore this, set the `ignore-empty-workdir` input to `true`.
 
 This action sets several environment variables that influence uv's behavior and can be used by subsequent steps:
 
-- `UV_PYTHON`: Set when `python-version` input is specified. Controls which Python version uv uses.
+- `UV_PYTHON`: Set when `python-version` is specified or the selected `.tool-versions` file contains a supported `python` entry. Controls which Python version uv uses.
 - `UV_CACHE_DIR`: Set when caching is enabled (unless already configured in uv config files). Controls where uv stores its cache.
 - `UV_TOOL_DIR`: Set when `tool-dir` input is specified. Controls where uv installs tool environments.
 - `UV_TOOL_BIN_DIR`: Set when `tool-bin-dir` input is specified. Controls where uv installs tool binaries.
@@ -142,10 +154,11 @@ This action sets several environment variables that influence uv's behavior and 
 
 - `UV_NO_MODIFY_PATH`: If set, prevents the action from modifying PATH. Cannot be used with `activate-environment`.
 - `UV_CACHE_DIR`: If already set, the action will respect it instead of setting its own cache directory.
+- `UV_PYTHON`: If already set and `python-version` is not specified, the action will respect it instead of using the `python` entry from `.tool-versions`.
 
 ```yaml
 - name: Example using environment variables
-  uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
   with:
     python-version: "3.12"
     tool-dir: "/custom/tool/dir"

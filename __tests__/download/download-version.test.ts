@@ -55,6 +55,12 @@ jest.unstable_mockModule("../../src/download/checksum/checksum", () => ({
   validateChecksum: mockValidateChecksum,
 }));
 
+const mockGetLatestKnownVersion = jest.fn(() => "0.9.25");
+
+jest.unstable_mockModule("../../src/download/checksum/known-version", () => ({
+  getLatestKnownVersion: mockGetLatestKnownVersion,
+}));
+
 const { downloadVersion, resolveVersion, rewriteToMirror } = await import(
   "../../src/download/download-version"
 );
@@ -72,6 +78,7 @@ describe("download-version", () => {
     mockGetFirstMatchingVersion.mockReset();
     mockGetArtifact.mockReset();
     mockValidateChecksum.mockReset();
+    mockGetLatestKnownVersion.mockClear();
 
     mockDownloadTool.mockResolvedValue("/tmp/downloaded");
     mockExtractTar.mockResolvedValue("/tmp/extracted");
@@ -88,6 +95,16 @@ describe("download-version", () => {
       expect(version).toBe("0.9.26");
       expect(mockGetLatestVersion).toHaveBeenCalledTimes(1);
       expect(mockGetLatestVersion).toHaveBeenCalledWith(undefined);
+    });
+
+    it("resolves latest-known without reading the manifest", async () => {
+      const version = await resolveVersion("latest-known", undefined);
+
+      expect(version).toBe("0.9.25");
+      expect(mockGetLatestKnownVersion).toHaveBeenCalledTimes(1);
+      expect(mockGetLatestVersion).not.toHaveBeenCalled();
+      expect(mockGetAllVersions).not.toHaveBeenCalled();
+      expect(mockGetFirstMatchingVersion).not.toHaveBeenCalled();
     });
 
     it("stops at the first matching version in the default manifest", async () => {
@@ -210,10 +227,10 @@ describe("download-version", () => {
       expect(mockValidateChecksum).not.toHaveBeenCalled();
     });
 
-    it("uses built-in checksums for default manifest downloads", async () => {
+    it("uses the default manifest checksum as a fallback", async () => {
       mockGetArtifact.mockResolvedValue({
         archiveFormat: "tar.gz",
-        checksum: "manifest-checksum-that-should-be-ignored",
+        checksum: "manifest-checksum",
         downloadUrl: "https://example.com/uv.tar.gz",
       });
 
@@ -231,6 +248,7 @@ describe("download-version", () => {
         "x86_64",
         "unknown-linux-gnu",
         "0.9.26",
+        "manifest-checksum",
       );
     });
 
@@ -383,6 +401,7 @@ describe("download-version", () => {
         "x86_64",
         "unknown-linux-gnu",
         "0.9.26",
+        "manifest-checksum",
       );
     });
 
@@ -408,6 +427,7 @@ describe("download-version", () => {
         "x86_64",
         "unknown-linux-gnu",
         "0.9.26",
+        "manifest-checksum",
       );
     });
 
