@@ -24,6 +24,8 @@ export interface SetupInputs {
   version: string;
   versionFile: string;
   pythonVersion: string;
+  pythonArch: string;
+  exportPythonArch: boolean;
   activateEnvironment: boolean;
   noProject: boolean;
   venvPath: string;
@@ -54,13 +56,16 @@ export function loadInputs(): SetupInputs {
   const version = core.getInput("version");
   const versionFile = getVersionFile(workingDirectory);
   const pythonVersion = getPythonVersion(versionFile);
+  const pythonArchInput = core.getInput("python-arch");
+  const pythonArch = pythonArchInput || process.env.UV_PYTHON_ARCH || "";
+  const exportPythonArch = pythonArchInput !== "";
   const activateEnvironment = core.getBooleanInput("activate-environment");
   const noProject = core.getBooleanInput("no-project");
   const venvPath = getVenvPath(workingDirectory, activateEnvironment);
   const checksum = core.getInput("checksum");
   const enableCache = getEnableCache();
   const restoreCache = core.getInput("restore-cache") === "true";
-  const saveCache = core.getInput("save-cache") === "true";
+  const saveCache = getSaveCache();
   const cacheSuffix = core.getInput("cache-suffix") || "";
   const cacheLocalPath = getCacheLocalPath(
     workingDirectory,
@@ -94,12 +99,14 @@ export function loadInputs(): SetupInputs {
     checksum,
     downloadFromAstralMirror,
     enableCache,
+    exportPythonArch,
     githubToken,
     ignoreEmptyWorkdir,
     ignoreNothingToCache,
     manifestFile,
     noProject,
     pruneCache,
+    pythonArch,
     pythonDir,
     pythonVersion,
     quiet,
@@ -187,6 +194,18 @@ function getEnableCache(): boolean {
     return true;
   }
   return enableCacheInput === "true";
+}
+
+function getSaveCache(): boolean {
+  const saveCacheInput = core.getInput("save-cache");
+  if (saveCacheInput === "auto") {
+    if (process.env.GITHUB_EVENT_NAME === "merge_group") {
+      log.info("Cache saving is disabled for the merge_group event");
+      return false;
+    }
+    return true;
+  }
+  return saveCacheInput === "true";
 }
 
 function getToolBinDir(workingDirectory: string): string | undefined {

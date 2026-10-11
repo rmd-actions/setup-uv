@@ -19,6 +19,7 @@ const ORIGINAL_RUNNER_ENVIRONMENT = process.env.RUNNER_ENVIRONMENT;
 const ORIGINAL_RUNNER_TEMP = process.env.RUNNER_TEMP;
 const ORIGINAL_UV_CACHE_DIR = process.env.UV_CACHE_DIR;
 const ORIGINAL_UV_PYTHON = process.env.UV_PYTHON;
+const ORIGINAL_UV_PYTHON_ARCH = process.env.UV_PYTHON_ARCH;
 const ORIGINAL_UV_PYTHON_INSTALL_DIR = process.env.UV_PYTHON_INSTALL_DIR;
 
 const mockDebug = jest.fn();
@@ -62,6 +63,7 @@ function resetEnvironment(): void {
   delete process.env.RUNNER_TEMP;
   delete process.env.UV_CACHE_DIR;
   delete process.env.UV_PYTHON;
+  delete process.env.UV_PYTHON_ARCH;
   delete process.env.UV_PYTHON_INSTALL_DIR;
 }
 
@@ -77,6 +79,11 @@ function restoreEnvironment(): void {
   process.env.RUNNER_TEMP = ORIGINAL_RUNNER_TEMP;
   process.env.UV_CACHE_DIR = ORIGINAL_UV_CACHE_DIR;
   process.env.UV_PYTHON = ORIGINAL_UV_PYTHON;
+  if (ORIGINAL_UV_PYTHON_ARCH === undefined) {
+    delete process.env.UV_PYTHON_ARCH;
+  } else {
+    process.env.UV_PYTHON_ARCH = ORIGINAL_UV_PYTHON_ARCH;
+  }
   process.env.UV_PYTHON_INSTALL_DIR = ORIGINAL_UV_PYTHON_INSTALL_DIR;
 }
 
@@ -98,6 +105,8 @@ describe("loadInputs", () => {
       source: CacheLocalSource.Default,
     });
     expect(inputs.pythonDir).toBe("/runner-temp/uv-python-dir");
+    expect(inputs.pythonArch).toBe("");
+    expect(inputs.exportPythonArch).toBe(false);
     expect(inputs.venvPath).toBe("/workspace/.venv");
     expect(inputs.manifestFile).toBeUndefined();
     expect(inputs.resolutionStrategy).toBe("highest");
@@ -148,6 +157,28 @@ describe("loadInputs", () => {
 
     expect(inputs.pythonVersion).toBe("");
   });
+
+  it("prefers the python-arch input over UV_PYTHON_ARCH", () => {
+    mockInputs["working-directory"] = "/workspace";
+    mockInputs["python-arch"] = "x86_64";
+    process.env.UV_PYTHON_ARCH = "aarch64";
+
+    const inputs = loadInputs();
+    expect(inputs.pythonArch).toBe("x86_64");
+    expect(inputs.exportPythonArch).toBe(true);
+  });
+
+  it.each(["aarch64", "x86_64_v3", ""])(
+    "uses UV_PYTHON_ARCH when python-arch is omitted: %s",
+    (pythonArch) => {
+      mockInputs["working-directory"] = "/workspace";
+      process.env.UV_PYTHON_ARCH = pythonArch;
+
+      const inputs = loadInputs();
+      expect(inputs.pythonArch).toBe(pythonArch);
+      expect(inputs.exportPythonArch).toBe(false);
+    },
+  );
 
   it.each(["pull_request_target", "workflow_run", "release"])(
     "disables automatic caching for the %s event",
@@ -204,6 +235,51 @@ describe("loadInputs", () => {
     const inputs = loadInputs();
 
     expect(inputs.enableCache).toBe(true);
+  });
+
+  it("restores but does not save cache automatically for merge groups", () => {
+    mockInputs["working-directory"] = "/workspace";
+    mockInputs["enable-cache"] = "auto";
+    mockInputs["restore-cache"] = "true";
+    mockInputs["save-cache"] = "auto";
+    process.env.RUNNER_ENVIRONMENT = "github-hosted";
+    process.env.RUNNER_TEMP = "/runner-temp";
+    process.env.GITHUB_EVENT_NAME = "merge_group";
+
+    const inputs = loadInputs();
+
+    expect(inputs.enableCache).toBe(true);
+    expect(inputs.restoreCache).toBe(true);
+    expect(inputs.saveCache).toBe(false);
+    expect(mockInfo).toHaveBeenCalledWith(
+      "Cache saving is disabled for the merge_group event",
+    );
+  });
+
+  it.each([
+    ["true", true],
+    ["false", false],
+  ])("honors save-cache %s for merge groups", (saveCacheInput, expected) => {
+    mockInputs["working-directory"] = "/workspace";
+    mockInputs["save-cache"] = saveCacheInput;
+    process.env.GITHUB_EVENT_NAME = "merge_group";
+
+    const inputs = loadInputs();
+
+    expect(inputs.saveCache).toBe(expected);
+    expect(mockInfo).not.toHaveBeenCalledWith(
+      "Cache saving is disabled for the merge_group event",
+    );
+  });
+
+  it("automatically saves cache for other events", () => {
+    mockInputs["working-directory"] = "/workspace";
+    mockInputs["save-cache"] = "auto";
+    process.env.GITHUB_EVENT_NAME = "push";
+
+    const inputs = loadInputs();
+
+    expect(inputs.saveCache).toBe(true);
   });
 
   it("uses cache-dir from pyproject.toml when present", () => {

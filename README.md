@@ -15,6 +15,7 @@ Set up your GitHub Actions workflow with a specific version of [uv](https://docs
   - [Inputs](#inputs)
   - [Outputs](#outputs)
   - [Python version](#python-version)
+  - [Python architecture](#python-architecture)
   - [Working directory](#working-directory)
 - [Advanced Configuration](#advanced-configuration)
 - [How it works](#how-it-works)
@@ -26,7 +27,7 @@ Set up your GitHub Actions workflow with a specific version of [uv](https://docs
 
 ```yaml
 - name: Install the latest version of uv
-  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+  uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
 ```
 
 If you do not specify a version, this action will look for a [required-version](https://docs.astral.sh/uv/reference/settings/#required-version)
@@ -42,7 +43,7 @@ Have a look under [Advanced Configuration](#advanced-configuration) for detailed
 
 ```yaml
 - name: Install uv with all available options
-  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+  uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
   with:
     # The version of uv to install, e.g., "0.5.0", "latest", or "latest-known" (default: searches for version in config files, then latest)
     version: ""
@@ -55,6 +56,9 @@ Have a look under [Advanced Configuration](#advanced-configuration) for detailed
 
     # The version of Python to set UV_PYTHON to (overrides the Python version from .tool-versions)
     python-version: ""
+
+    # The Python architecture to set UV_PYTHON_ARCH to, e.g., x86_64 or aarch64
+    python-arch: ""
 
     # Use uv venv to activate a venv ready to be used by later steps
     activate-environment: "false"
@@ -90,8 +94,8 @@ Have a look under [Advanced Configuration](#advanced-configuration) for detailed
     # Whether to restore the cache if found
     restore-cache: "true"
 
-    # Whether to save the cache after the run
-    save-cache: "true"
+    # Whether to save the cache after the run: true, false, or auto (disabled for merge_group events)
+    save-cache: "auto"
 
     # Suffix for the cache key
     cache-suffix: ""
@@ -138,6 +142,7 @@ Have a look under [Advanced Configuration](#advanced-configuration) for detailed
 - `cache-hit`: A boolean value to indicate a cache entry was found.
 - `venv`: Path to the activated venv if activate-environment is true.
 - `python-version`: The Python version that was set.
+- `python-runtime-id`: An opaque identifier reported by uv for the activated venv's Python runtime. Empty when `activate-environment` is false.
 - `python-cache-hit`: A boolean value to indicate the Python cache entry was found.
 
 ### Python version
@@ -156,7 +161,7 @@ python 3.13
 ```
 
 ```yaml
-- uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+- uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
   with:
     version-file: ".tool-versions"
 ```
@@ -167,7 +172,7 @@ a warning.
 
 ```yaml
 - name: Install the latest version of uv and set the python version to 3.13t
-  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+  uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
   with:
     python-version: 3.13t
 - run: uv pip install --python=3.13t pip
@@ -185,12 +190,31 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Install the latest version of uv and set the python version
-        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
         with:
           python-version: ${{ matrix.python-version }}
       - name: Test with python ${{ matrix.python-version }}
         run: uv run --frozen pytest
 ```
+
+### Python architecture
+
+Use `python-arch` to set `UV_PYTHON_ARCH` for the rest of the job. This selects the Python
+architecture independently of the version, including versions requested by `.python-version`.
+An explicit architecture or interpreter path in a Python request takes precedence.
+
+```yaml
+- uses: astral-sh/setup-uv@main
+  with:
+    python-version: "3.14"
+    python-arch: x86_64
+- run: uv run --frozen pytest
+```
+
+The input overrides an existing `UV_PYTHON_ARCH` value. When it is omitted, the action respects
+`UV_PYTHON_ARCH` from the environment. Both forms require a uv version that supports the variable;
+the action reports an error if the installed version does not support it. The selected architecture
+is included in the [cache key](docs/caching.md#cache-key).
 
 ### Working directory
 
@@ -202,7 +226,7 @@ It also controls where [the venv gets created](#activate-environment), unless `v
 
 ```yaml
 - name: Install uv based on the config files in the working-directory
-  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+  uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
   with:
     working-directory: my/subproject/dir
 ```
@@ -244,7 +268,7 @@ For example:
 - name: Checkout the repository
   uses: actions/checkout@main
 - name: Install the latest version of uv
-  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+  uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
   with:
     enable-cache: true
 - name: Test
@@ -256,7 +280,7 @@ To install a specific version of Python, use
 
 ```yaml
 - name: Install the latest version of uv
-  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+  uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
   with:
     enable-cache: true
 - name: Install Python 3.12
@@ -275,7 +299,7 @@ output:
   uses: actions/checkout@main
 - name: Install the default version of uv
   id: setup-uv
-  uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+  uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
 - name: Print the installed version
   run: echo "Installed uv version is ${{ steps.setup-uv.outputs.uv-version }}"
 ```
