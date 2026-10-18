@@ -16,6 +16,8 @@ import {
   getPlatform,
   type Platform,
 } from "./utils/platforms";
+import { setupPythonArch } from "./utils/python-arch";
+import { getPythonRuntimeId } from "./utils/python-runtime";
 import { resolveUvVersion } from "./version/resolve";
 
 const sourceDir = __dirname;
@@ -85,6 +87,11 @@ async function run(): Promise<void> {
       throw new Error(`Unsupported architecture: ${process.arch}`);
     }
     const setupResult = await setupUv(inputs, platform, arch);
+    const uvPath = path.join(
+      setupResult.uvDir,
+      process.platform === "win32" ? "uv.exe" : "uv",
+    );
+    await setupPythonArch(uvPath, inputs.pythonArch, inputs.exportPythonArch);
 
     addToolBinToPath(inputs);
     addUvToPathAndOutput(setupResult.uvDir);
@@ -101,6 +108,7 @@ async function run(): Promise<void> {
 
     const detectedPythonVersion = await getPythonVersion(inputs);
     core.setOutput("python-version", detectedPythonVersion);
+    core.setOutput("python-runtime-id", await getPythonRuntimeId(inputs));
 
     if (inputs.enableCache) {
       await restoreCache(inputs, detectedPythonVersion);
