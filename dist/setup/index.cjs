@@ -8546,7 +8546,7 @@ var require_proxy_agent = __commonJS({
         return this.#client.destroy(err);
       }
     };
-    var ProxyAgent3 = class extends DispatcherBase {
+    var ProxyAgent2 = class extends DispatcherBase {
       constructor(opts) {
         super();
         if (!opts || typeof opts === "object" && !(opts instanceof URL3) && !opts.uri) {
@@ -8687,7 +8687,7 @@ var require_proxy_agent = __commonJS({
         throw new InvalidArgumentError("Proxy-Authorization should be sent in ProxyAgent constructor");
       }
     }
-    module2.exports = ProxyAgent3;
+    module2.exports = ProxyAgent2;
   }
 });
 
@@ -8697,14 +8697,14 @@ var require_env_http_proxy_agent = __commonJS({
     "use strict";
     var DispatcherBase = require_dispatcher_base();
     var { kClose, kDestroy, kClosed, kDestroyed, kDispatch, kNoProxyAgent, kHttpProxyAgent, kHttpsProxyAgent } = require_symbols();
-    var ProxyAgent3 = require_proxy_agent();
+    var ProxyAgent2 = require_proxy_agent();
     var Agent3 = require_agent();
     var DEFAULT_PORTS = {
       "http:": 80,
       "https:": 443
     };
     var experimentalWarned = false;
-    var EnvHttpProxyAgent = class extends DispatcherBase {
+    var EnvHttpProxyAgent2 = class extends DispatcherBase {
       #noProxyValue = null;
       #noProxyEntries = null;
       #opts = null;
@@ -8721,13 +8721,13 @@ var require_env_http_proxy_agent = __commonJS({
         this[kNoProxyAgent] = new Agent3(agentOpts);
         const HTTP_PROXY2 = httpProxy ?? process.env.http_proxy ?? process.env.HTTP_PROXY;
         if (HTTP_PROXY2) {
-          this[kHttpProxyAgent] = new ProxyAgent3({ ...agentOpts, uri: HTTP_PROXY2 });
+          this[kHttpProxyAgent] = new ProxyAgent2({ ...agentOpts, uri: HTTP_PROXY2 });
         } else {
           this[kHttpProxyAgent] = this[kNoProxyAgent];
         }
         const HTTPS_PROXY2 = httpsProxy ?? process.env.https_proxy ?? process.env.HTTPS_PROXY;
         if (HTTPS_PROXY2) {
-          this[kHttpsProxyAgent] = new ProxyAgent3({ ...agentOpts, uri: HTTPS_PROXY2 });
+          this[kHttpsProxyAgent] = new ProxyAgent2({ ...agentOpts, uri: HTTPS_PROXY2 });
         } else {
           this[kHttpsProxyAgent] = this[kHttpProxyAgent];
         }
@@ -8823,7 +8823,7 @@ var require_env_http_proxy_agent = __commonJS({
         return process.env.no_proxy ?? process.env.NO_PROXY ?? "";
       }
     };
-    module2.exports = EnvHttpProxyAgent;
+    module2.exports = EnvHttpProxyAgent2;
   }
 });
 
@@ -10833,7 +10833,7 @@ var require_mock_interceptor = __commonJS({
 var require_mock_client = __commonJS({
   "node_modules/@actions/http-client/node_modules/undici/lib/mock/mock-client.js"(exports2, module2) {
     "use strict";
-    var { promisify: promisify5 } = require("node:util");
+    var { promisify: promisify6 } = require("node:util");
     var Client = require_client();
     var { buildMockDispatch } = require_mock_utils();
     var {
@@ -10873,7 +10873,7 @@ var require_mock_client = __commonJS({
         return new MockInterceptor(opts, this[kDispatches]);
       }
       async [kClose]() {
-        await promisify5(this[kOriginalClose])();
+        await promisify6(this[kOriginalClose])();
         this[kConnected] = 0;
         this[kMockAgent][Symbols.kClients].delete(this[kOrigin]);
       }
@@ -10886,7 +10886,7 @@ var require_mock_client = __commonJS({
 var require_mock_pool = __commonJS({
   "node_modules/@actions/http-client/node_modules/undici/lib/mock/mock-pool.js"(exports2, module2) {
     "use strict";
-    var { promisify: promisify5 } = require("node:util");
+    var { promisify: promisify6 } = require("node:util");
     var Pool = require_pool();
     var { buildMockDispatch } = require_mock_utils();
     var {
@@ -10926,7 +10926,7 @@ var require_mock_pool = __commonJS({
         return new MockInterceptor(opts, this[kDispatches]);
       }
       async [kClose]() {
-        await promisify5(this[kOriginalClose])();
+        await promisify6(this[kOriginalClose])();
         this[kConnected] = 0;
         this[kMockAgent][Symbols.kClients].delete(this[kOrigin]);
       }
@@ -18458,8 +18458,8 @@ var require_undici = __commonJS({
     var Pool = require_pool();
     var BalancedPool = require_balanced_pool();
     var Agent3 = require_agent();
-    var ProxyAgent3 = require_proxy_agent();
-    var EnvHttpProxyAgent = require_env_http_proxy_agent();
+    var ProxyAgent2 = require_proxy_agent();
+    var EnvHttpProxyAgent2 = require_env_http_proxy_agent();
     var RetryAgent = require_retry_agent();
     var errors = require_errors();
     var util7 = require_util();
@@ -18481,8 +18481,8 @@ var require_undici = __commonJS({
     module2.exports.Pool = Pool;
     module2.exports.BalancedPool = BalancedPool;
     module2.exports.Agent = Agent3;
-    module2.exports.ProxyAgent = ProxyAgent3;
-    module2.exports.EnvHttpProxyAgent = EnvHttpProxyAgent;
+    module2.exports.ProxyAgent = ProxyAgent2;
+    module2.exports.EnvHttpProxyAgent = EnvHttpProxyAgent2;
     module2.exports.RetryAgent = RetryAgent;
     module2.exports.RetryHandler = RetryHandler;
     module2.exports.DecoratorHandler = DecoratorHandler;
@@ -40228,7 +40228,7 @@ var require_proxy_agent2 = __commonJS({
         return this.#client.destroy(err);
       }
     };
-    var ProxyAgent3 = class extends DispatcherBase {
+    var ProxyAgent2 = class extends DispatcherBase {
       constructor(opts) {
         if (!opts || typeof opts === "object" && !(opts instanceof URL) && !opts.uri) {
           throw new InvalidArgumentError("Proxy uri is mandatory");
@@ -40427,7 +40427,7 @@ var require_proxy_agent2 = __commonJS({
     function throwProxyAuthError() {
       throw new InvalidArgumentError("Proxy-Authorization should be sent in ProxyAgent constructor");
     }
-    module2.exports = ProxyAgent3;
+    module2.exports = ProxyAgent2;
   }
 });
 
@@ -40437,13 +40437,13 @@ var require_env_http_proxy_agent2 = __commonJS({
     "use strict";
     var DispatcherBase = require_dispatcher_base2();
     var { kClose, kDestroy, kClosed, kDestroyed, kDispatch, kNoProxyAgent, kHttpProxyAgent, kHttpsProxyAgent } = require_symbols6();
-    var ProxyAgent3 = require_proxy_agent2();
+    var ProxyAgent2 = require_proxy_agent2();
     var Agent3 = require_agent2();
     var DEFAULT_PORTS = {
       "http:": 80,
       "https:": 443
     };
-    var EnvHttpProxyAgent = class extends DispatcherBase {
+    var EnvHttpProxyAgent2 = class extends DispatcherBase {
       #noProxyValue = null;
       #noProxyEntries = null;
       #opts = null;
@@ -40454,13 +40454,13 @@ var require_env_http_proxy_agent2 = __commonJS({
         this[kNoProxyAgent] = new Agent3(agentOpts);
         const HTTP_PROXY2 = httpProxy ?? process.env.http_proxy ?? process.env.HTTP_PROXY;
         if (HTTP_PROXY2) {
-          this[kHttpProxyAgent] = new ProxyAgent3({ ...agentOpts, uri: HTTP_PROXY2 });
+          this[kHttpProxyAgent] = new ProxyAgent2({ ...agentOpts, uri: HTTP_PROXY2 });
         } else {
           this[kHttpProxyAgent] = this[kNoProxyAgent];
         }
         const HTTPS_PROXY2 = httpsProxy ?? process.env.https_proxy ?? process.env.HTTPS_PROXY;
         if (HTTPS_PROXY2) {
-          this[kHttpsProxyAgent] = new ProxyAgent3({ ...agentOpts, uri: HTTPS_PROXY2 });
+          this[kHttpsProxyAgent] = new ProxyAgent2({ ...agentOpts, uri: HTTPS_PROXY2 });
         } else {
           this[kHttpsProxyAgent] = this[kHttpProxyAgent];
         }
@@ -40561,7 +40561,7 @@ var require_env_http_proxy_agent2 = __commonJS({
         return process.env.no_proxy ?? process.env.NO_PROXY ?? "";
       }
     };
-    module2.exports = EnvHttpProxyAgent;
+    module2.exports = EnvHttpProxyAgent2;
   }
 });
 
@@ -43099,7 +43099,7 @@ var require_mock_interceptor2 = __commonJS({
 var require_mock_client2 = __commonJS({
   "node_modules/undici/lib/mock/mock-client.js"(exports2, module2) {
     "use strict";
-    var { promisify: promisify5 } = require("node:util");
+    var { promisify: promisify6 } = require("node:util");
     var Client = require_client2();
     var { buildMockDispatch } = require_mock_utils2();
     var {
@@ -43147,7 +43147,7 @@ var require_mock_client2 = __commonJS({
         this[kDispatches] = [];
       }
       async [kClose]() {
-        await promisify5(this[kOriginalClose])();
+        await promisify6(this[kOriginalClose])();
         this[kConnected] = 0;
         this[kMockAgent][Symbols.kClients].delete(this[kOrigin]);
       }
@@ -43360,7 +43360,7 @@ var require_mock_call_history = __commonJS({
 var require_mock_pool2 = __commonJS({
   "node_modules/undici/lib/mock/mock-pool.js"(exports2, module2) {
     "use strict";
-    var { promisify: promisify5 } = require("node:util");
+    var { promisify: promisify6 } = require("node:util");
     var Pool = require_pool2();
     var { buildMockDispatch } = require_mock_utils2();
     var {
@@ -43408,7 +43408,7 @@ var require_mock_pool2 = __commonJS({
         this[kDispatches] = [];
       }
       async [kClose]() {
-        await promisify5(this[kOriginalClose])();
+        await promisify6(this[kOriginalClose])();
         this[kConnected] = 0;
         this[kMockAgent][Symbols.kClients].delete(this[kOrigin]);
       }
@@ -55691,9 +55691,9 @@ var require_undici2 = __commonJS({
     var RoundRobinPool = require_round_robin_pool();
     var Agent3 = require_agent2();
     var Dispatcher1Wrapper = require_dispatcher1_wrapper();
-    var ProxyAgent3 = require_proxy_agent2();
+    var ProxyAgent2 = require_proxy_agent2();
     var Socks5ProxyAgent = require_socks5_proxy_agent();
-    var EnvHttpProxyAgent = require_env_http_proxy_agent2();
+    var EnvHttpProxyAgent2 = require_env_http_proxy_agent2();
     var RetryAgent = require_retry_agent2();
     var H2CClient = require_h2c_client();
     var errors = require_errors2();
@@ -55719,9 +55719,9 @@ var require_undici2 = __commonJS({
     module2.exports.RoundRobinPool = RoundRobinPool;
     module2.exports.Agent = Agent3;
     module2.exports.Dispatcher1Wrapper = Dispatcher1Wrapper;
-    module2.exports.ProxyAgent = ProxyAgent3;
+    module2.exports.ProxyAgent = ProxyAgent2;
     module2.exports.Socks5ProxyAgent = Socks5ProxyAgent;
-    module2.exports.EnvHttpProxyAgent = EnvHttpProxyAgent;
+    module2.exports.EnvHttpProxyAgent = EnvHttpProxyAgent2;
     module2.exports.RetryAgent = RetryAgent;
     module2.exports.H2CClient = H2CClient;
     module2.exports.RetryHandler = RetryHandler;
@@ -94508,6 +94508,132 @@ var fs10 = __toESM(require("node:fs"), 1);
 
 // src/download/checksum/known-checksums.json
 var known_checksums_default = {
+  "aarch64-apple-darwin-0.12.13": "7e6ddb9316acc00f2296c82ff4d99977870ee34b2f0ddcae9444d714db9364ed",
+  "aarch64-pc-windows-msvc-0.12.13": "1efb2654b06e7063d4ac1fc9d49a9bda9a6704d82f035b589a2751a592f14151",
+  "aarch64-unknown-linux-gnu-0.12.13": "2eaa5d94f5db7b3a1a092156b9420459e42ab0217d917fe74a876309cef9b5e9",
+  "aarch64-unknown-linux-musl-0.12.13": "f44bc1037a17889fe562fffd2002d4ed108e499fbe68b4f022af244dc7b8244f",
+  "arm-unknown-linux-musleabihf-0.12.13": "2c7644f891edcf1e74a1b9dde96ea4ba00b41301c936c87e843683656703ada2",
+  "armv7-unknown-linux-gnueabihf-0.12.13": "19252c4d21fce112817b9e07bef6b2e9c90cef80fe82659533105b37a772d067",
+  "armv7-unknown-linux-musleabihf-0.12.13": "54e2c10e4e6c18a3efbac645ea02d7e6b768ae2f975275595915a7039e802b75",
+  "i686-pc-windows-msvc-0.12.13": "4ddcdf859d3bd337a156a2fc567e685e4b3d61e07b4a2dbbed7aeb4325e116ac",
+  "i686-unknown-linux-gnu-0.12.13": "beb56f6eda61bc69a8acc1bca07929365aa5cd2e912e35c35003a45e266d8a0e",
+  "i686-unknown-linux-musl-0.12.13": "6c93a9703b6145266240cb2aeb31d3574c21b33570fddf92461707b906eb3a65",
+  "powerpc64le-unknown-linux-gnu-0.12.13": "cd45ac73fc711e717602a4dc0c9e19d9c6563d15b14515a9a5dd49b00172a8b6",
+  "riscv64gc-unknown-linux-gnu-0.12.13": "ff1fb4d7e4c1d3a4acc6eff69b2530e846964260469df345e0239059517c0a21",
+  "riscv64gc-unknown-linux-musl-0.12.13": "b88312b410c1183e33ae9fa7738f35b7cd7396b2aa0e82836d7e88dbf23e5fb5",
+  "s390x-unknown-linux-gnu-0.12.13": "d41e4784c2187c76970690a9e9a288231f5ec8d2160ad8464be74aa9c06717e8",
+  "x86_64-apple-darwin-0.12.13": "5e287ef61cb6a9b61b3a83fef124fd143e400468a7dac794230147a810e17119",
+  "x86_64-pc-windows-msvc-0.12.13": "a86c9dc7bad9b03f388583b7187c05fe9951c2e0d392217e8fd43d97787f6ec2",
+  "x86_64-unknown-linux-gnu-0.12.13": "745765a3b6e360ad76743599ae5c42e9278c7edf8bbff9fc76d05bf2623a04dd",
+  "x86_64-unknown-linux-musl-0.12.13": "4e2bfd0c9007b1032a50e539e965fd0a6037d87ad93ae1580d220a92d4c94098",
+  "aarch64-apple-darwin-0.12.12": "46740540b63fdee9a6cb2e19baf3f1f475b850c440a33e63455087a6871263f1",
+  "aarch64-pc-windows-msvc-0.12.12": "36559da51ecee83b2b1d80aa1a0ede2f80e2d9e5761fffcbb9e9366a7f3d022a",
+  "aarch64-unknown-linux-gnu-0.12.12": "fe08db50cc1b56cd1da7801065ed1103d27ed3f9571cd122386cfc7faf1b8df5",
+  "aarch64-unknown-linux-musl-0.12.12": "82e59fff633cbd96fb675f37c7a748c056d909a59ecf476f8ff0e5bee76b9b23",
+  "arm-unknown-linux-musleabihf-0.12.12": "72ac215cb44636c62de5a672c9ff822acd1ffd90b96f751c359902c8de11c75b",
+  "armv7-unknown-linux-gnueabihf-0.12.12": "ed00794f3750bcf405556ac28e8aff0480a4e309e4ab1505df9f96b83088b230",
+  "armv7-unknown-linux-musleabihf-0.12.12": "74220d4b9df5507f527478313f17190cdff1078532efb8547483804372f77f47",
+  "i686-pc-windows-msvc-0.12.12": "5d6ea94bc2fdbcd39710e0bac00db2a771aae05d09a34387841187958af48362",
+  "i686-unknown-linux-gnu-0.12.12": "ce4411f863d3bd0cf97699eecebce9331ae72d69cf57735806321bf60b637b03",
+  "i686-unknown-linux-musl-0.12.12": "b0a733aa67b9ea4d5dd28c1ae2c8393ce1be4b032c3d51642d6b05190f21fb6a",
+  "powerpc64le-unknown-linux-gnu-0.12.12": "b5d05f6cb74605da9bb371ee9f8128bb8611ba1fab324bd4abc6e70a83abe0c7",
+  "riscv64gc-unknown-linux-gnu-0.12.12": "7b0b054d9a7d7b2c32e9ca111b271091240c81cb41487bcbe65992a2baca9c97",
+  "riscv64gc-unknown-linux-musl-0.12.12": "d2324e24ad526bbc45ac8a40f4d846c315efef9d4c91bb25725f29ccf2382b8a",
+  "s390x-unknown-linux-gnu-0.12.12": "53135d16813f9ad961c809828da06f2339d49510c110668fe2e0353fef46b213",
+  "x86_64-apple-darwin-0.12.12": "0dc8cd6c961582b0d140b5398f96b23502885277fb3464241456a2435e460dfa",
+  "x86_64-pc-windows-msvc-0.12.12": "3d54912924c36e862c14f427d04f2ed70a99e8001d1c30caa101f6d5711626d5",
+  "x86_64-unknown-linux-gnu-0.12.12": "ab9b309d4586403f024e100abaceb396616e178a553e2500c36087d180f09509",
+  "x86_64-unknown-linux-musl-0.12.12": "0b0bbd7144f91d9b694e29c920fca3a060322bd134e8507e5eb92049a3e2edf0",
+  "aarch64-apple-darwin-0.12.11": "e01b69ee15e81918d5e8fc9cf39b3db7f59c5576e5e306cd9b7aeb2c7b7321c3",
+  "aarch64-pc-windows-msvc-0.12.11": "7a70f46305d28a95f913ef2888254a9f9c183a406daeeb8937134afc9ed434d2",
+  "aarch64-unknown-linux-gnu-0.12.11": "e9933d907fb9cd27d606d819bbded419f2844c0e2efc98225ecfa409288eb28d",
+  "aarch64-unknown-linux-musl-0.12.11": "de99cafdeb5ee6f61ac3acd6d9dc6a1ef166f9398fa5623c436246ee1ecea099",
+  "arm-unknown-linux-musleabihf-0.12.11": "dd8576a7194e69861cd9def865f3a26613bb116109f075e64925a38cdd509429",
+  "armv7-unknown-linux-gnueabihf-0.12.11": "8975dd185f9e34f93733fdcd7ae7ae552ecd7d3bd5792ff06ab3dc104f50e327",
+  "armv7-unknown-linux-musleabihf-0.12.11": "b1cb2600a61c8d780a7ef365f69f4a336e4657494e13b9a757b4d10bb55d65af",
+  "i686-pc-windows-msvc-0.12.11": "c5fb5da8a9578ccaf9dadd3622413c347661847ededb4a93d9d3dbf9304a9ea4",
+  "i686-unknown-linux-gnu-0.12.11": "ab2d67fa9d3cfbdfa616b6e91eda4ae0d159dca09b446226935458f9cd28bd3e",
+  "i686-unknown-linux-musl-0.12.11": "bc894f6f1c6aa2caef10caa3890948c2fec5159c678bae432c5aab88c2a71961",
+  "powerpc64le-unknown-linux-gnu-0.12.11": "7d7fccdd92328b3732bffc1ded64d430f8bd7a59dc575e4804256f907f10c957",
+  "riscv64gc-unknown-linux-gnu-0.12.11": "279a560bb492e92275ab96b1b601fc2a2feec84499d8b67160e07001496602b7",
+  "riscv64gc-unknown-linux-musl-0.12.11": "f24d2434251e9a9ea4b1dec014e28299a936fc387087ae953677c389b21f09f5",
+  "s390x-unknown-linux-gnu-0.12.11": "ac48ff502ee64983b904bcbe73559409f9a0ca950c788cd4ea77db510258f233",
+  "x86_64-apple-darwin-0.12.11": "96d773bf5fda4f9b08c4444847f9183d1c14bc8a28ff9c0490e261a8fc6e5309",
+  "x86_64-pc-windows-msvc-0.12.11": "e94225dea91e051472847bd6d146d7d66c4f54ffcd1f106678866a99580845f9",
+  "x86_64-unknown-linux-gnu-0.12.11": "4ae93e0f148a18434cc094072547cec88912fc4a72b984183c7d0d0e9586cb5e",
+  "x86_64-unknown-linux-musl-0.12.11": "3343303ad6b4f9537ae0abfb36f1926a90c0445ba8f23d0e0a840a66a124cffd",
+  "aarch64-apple-darwin-0.12.10": "51c6170e8e3a01cef9f33b94f582b7b81ac65046f55d40afb35f9cff5a68c179",
+  "aarch64-pc-windows-msvc-0.12.10": "ee985c51c0c9c1f82267a5d80f959b34a7ff888c109182bd3b2b35c4661bbcde",
+  "aarch64-unknown-linux-gnu-0.12.10": "9ff6b9d4665edcdd3a88dcc73cd1eb641754deb927f14e8c62ebfde6bf4f5f5e",
+  "aarch64-unknown-linux-musl-0.12.10": "3983cb642fae84eab33756109bb266f126eb61763d8d220dd662af589c5b3da5",
+  "arm-unknown-linux-musleabihf-0.12.10": "984d3539667b2d97d85aa07788f78f3aa87accc9b27c63913c3177d118f5df81",
+  "armv7-unknown-linux-gnueabihf-0.12.10": "682a52fea5deb07238420d7197e2d7cc10d558872f008a9b6799fb5326c8e420",
+  "armv7-unknown-linux-musleabihf-0.12.10": "4062b9eb018afdde9b3dfeceabe41aad4cc5ea7fe658b74fda0e8f36decef507",
+  "i686-pc-windows-msvc-0.12.10": "cbf375fe6bf8a4e9ffb2f09c1ff4f8ed29ba96594a604749f84fa4e08c9a4586",
+  "i686-unknown-linux-gnu-0.12.10": "d943d0c0af37ad884bef24972753f7c93e5765b458e6492a3eb0c2b855c83a58",
+  "i686-unknown-linux-musl-0.12.10": "9ab3d4ae061abcb8b000d7b472236f09998ddd466215753fc2eb4cdf372ba147",
+  "powerpc64le-unknown-linux-gnu-0.12.10": "2e6beb653888d2d2721b46d3d8aa328a2339a6cc20d4df98bbf206e728a92174",
+  "riscv64gc-unknown-linux-gnu-0.12.10": "38071e8f894acb0629a6f72017489e23642c1acee82953e3060635dd251cba8e",
+  "riscv64gc-unknown-linux-musl-0.12.10": "268ac2854b3c56370d68e94d819f5a3ee2dd7dfe81b17135d080a3648276d3b7",
+  "s390x-unknown-linux-gnu-0.12.10": "2192d8fb1d72860e8c0a85ccb074dcd4de0369c9fbd52a9041e16d5ba3f4467f",
+  "x86_64-apple-darwin-0.12.10": "5296d5aa2b9143360405eea866f8ef4d5dc8986b164eb0dc35e8f876a9304d30",
+  "x86_64-pc-windows-msvc-0.12.10": "f65744f94072152b1f86ba2aace4d01f1124d9a8ecb235805039e3718c36cac2",
+  "x86_64-unknown-linux-gnu-0.12.10": "173d95a0c32d18c896c46ba6fafbf3cf9c14ab74b033f81b76c883ef492a976b",
+  "x86_64-unknown-linux-musl-0.12.10": "848d0e261119e5b8f35db10164635e46a48bec29ceb1f8ec14a6fc76004973ee",
+  "aarch64-apple-darwin-0.12.9": "301f72afaf54060f92da7016cb0115bd077f43a9c8e39c1d8170a0bac80fd398",
+  "aarch64-pc-windows-msvc-0.12.9": "d3360363a3cb671f2c854f4ef48cf4a57fe8664f8ec6a248076d68b797a8acc0",
+  "aarch64-unknown-linux-gnu-0.12.9": "c36fe17937ff6bd16dc42fc13854b5465999fcab2efe0af559381e945e3c6001",
+  "aarch64-unknown-linux-musl-0.12.9": "7eb9bf48516448c9db6a9e436d8e747ac9c8a9cac74717160a29918249b080a6",
+  "arm-unknown-linux-musleabihf-0.12.9": "de6f5b904a6735bca2a6061bbc3a3a09718128b806e11981e37019e32292288b",
+  "armv7-unknown-linux-gnueabihf-0.12.9": "ac24ad959c4dee04c6cf42597a947828f661fda184db5fe82b3e72a07d391316",
+  "armv7-unknown-linux-musleabihf-0.12.9": "8c33bdfedafc27d73ca4850071383336671b9ce92a36cf53300fff799d8580b3",
+  "i686-pc-windows-msvc-0.12.9": "62396154da2dc04a9fffb027e75ae3d971ca3ac7d3f0ffa7dd2c27c94798ce3f",
+  "i686-unknown-linux-gnu-0.12.9": "c3669a2adfd83a9220b1da1ec8f2ef3624eca1ba1db3c45107b455694e9ef6dd",
+  "i686-unknown-linux-musl-0.12.9": "3c2a21d4dcb08cae133bb4ebd5cf40764bc5f076829fc2eab00df0a50d834eb9",
+  "powerpc64le-unknown-linux-gnu-0.12.9": "3da749e1a1d6e290811736aecdb13184e4732a07afe0e4162e9163f843f0315d",
+  "riscv64gc-unknown-linux-gnu-0.12.9": "7fd415b73bd19045e027d099209bb3fc4a59c36ee6d825caf40db2b8e2f3bd0d",
+  "riscv64gc-unknown-linux-musl-0.12.9": "3d6b761164444e1fe12be08f771583ed495354bcbd73631c65a62ae443d6a06a",
+  "s390x-unknown-linux-gnu-0.12.9": "d45e862e2001fa8a88e68cf8be91231a14143cdd1ac8351d8d8e4fdf44fbac1e",
+  "x86_64-apple-darwin-0.12.9": "e1ca175824f1056589ce9908f7631879ebc3c36535b5e63dc06510beb370b4c1",
+  "x86_64-pc-windows-msvc-0.12.9": "ddbfcee1ac615a0499f6aa97b5ec8ebdf3ee4a7714a48055ec2ba0030e3cf810",
+  "x86_64-unknown-linux-gnu-0.12.9": "ec7a99cd05e0cd7f80243f135ce1361c76835cb0ee60055d14d20eba8eba1460",
+  "x86_64-unknown-linux-musl-0.12.9": "aa4b1f8770910f7c7c543c7acc980e4270e52e70750c996acef813ea1c7c2912",
+  "aarch64-apple-darwin-0.12.8": "8ce083658dbff20143607ca7af8e0c1d64b6fd7bf03a5cdcb62bf3d47d991b5f",
+  "aarch64-pc-windows-msvc-0.12.8": "84b821c551802c200a32e25f9d1d960ef15e248f54f6a1bd9e1eb62934669da8",
+  "aarch64-unknown-linux-gnu-0.12.8": "ba8661f4fd207c8e94814191598e619b355ac10d5014e851e21eb800f9ef2b00",
+  "aarch64-unknown-linux-musl-0.12.8": "975917badc8370163989e5bbe5a7c69bf922d19f8e57cb2652531bbffc935f84",
+  "arm-unknown-linux-musleabihf-0.12.8": "0e0e733a33e229602c14a5c7af271917ef4b13b8bc50fd774d32bd4b18a09a3b",
+  "armv7-unknown-linux-gnueabihf-0.12.8": "bc80826f631f8836a974a88b8cf797935bc83f15552828ad5de0195f6246e333",
+  "armv7-unknown-linux-musleabihf-0.12.8": "794b2099dd9db9c359958fa8fcd0407bf3bc2682e020d40b8d20e046f3490a18",
+  "i686-pc-windows-msvc-0.12.8": "9b38cad9b06e0a910e606510cdb4ad2c4eb4f320c4f4c4ba90dd13ed1115c5b0",
+  "i686-unknown-linux-gnu-0.12.8": "739cfea6b2958da57106e6ff1b0f95ecb17522ce84fc8e07c8606b2f427a4e39",
+  "i686-unknown-linux-musl-0.12.8": "83d712e60c019b58015834804ffe4c9a4cdb7dc90c305be8c7e04bf14194158f",
+  "powerpc64le-unknown-linux-gnu-0.12.8": "5a39773f28a172d4ab62598306db2010c0e3bf3b278b2684afde86794af8ad71",
+  "riscv64gc-unknown-linux-gnu-0.12.8": "fd1905fbc62d5fff73994a48cf90149717541a6e30d097aef17626cbc5f8b734",
+  "riscv64gc-unknown-linux-musl-0.12.8": "1078863595c13c655f847111bd812468e7e6e0cb6b83c1cc6fd4bfc9337030cf",
+  "s390x-unknown-linux-gnu-0.12.8": "3a3b1fe41dea61afe6af2b8b59529ef2c4712d28dbb942a5e338fc9ff7578384",
+  "x86_64-apple-darwin-0.12.8": "bfcd4407de99e0a2c1904df0902fa1795653d4edd145358e6561527e746a4f16",
+  "x86_64-pc-windows-msvc-0.12.8": "e07acf3f8a29fe41f9e04b799c3325cb0e0893836bb222bf102829b45c679ad6",
+  "x86_64-unknown-linux-gnu-0.12.8": "2e2b37e9811e17675a9e70bed5e1a58fc8c0388be63d751d72cc735188c149ff",
+  "x86_64-unknown-linux-musl-0.12.8": "6ca4597639c97e921fb915e113061ce8e4a14ead9e42a1ead521dbb0a6763795",
+  "aarch64-apple-darwin-0.12.7": "127ebdda7ad953cdf198e964b570ea5771b85467ea93eb7cb6d6f8e6f55408f3",
+  "aarch64-pc-windows-msvc-0.12.7": "1611d0f4be72b0a354ad9a6ae954093dd4c91e93e36b8b490326a05a039ffe14",
+  "aarch64-unknown-linux-gnu-0.12.7": "66393193038dd7eb108abd7a218d9cec04ac70ab98242b0720fa94de19223b7c",
+  "aarch64-unknown-linux-musl-0.12.7": "6dcf60e3c085de88ace3671b949ca99f0652be561ff5627f0d21394140f041db",
+  "arm-unknown-linux-musleabihf-0.12.7": "7716bce33408494d7b46395504b9fc1ea3ea93b7d0e4b77ef15ca7d7e1ae245a",
+  "armv7-unknown-linux-gnueabihf-0.12.7": "e5b9a25ff397f593e9fff236c4d72ada28aff7da4540868dbca74f391a86d546",
+  "armv7-unknown-linux-musleabihf-0.12.7": "4b82298033bf6d20ee7c585a5da1448d681945f29b0dae5e73b72f83496f0e61",
+  "i686-pc-windows-msvc-0.12.7": "b4842ca13ae8ac33879341170eea32df1d9c41d0468a524e73375facddefb4b1",
+  "i686-unknown-linux-gnu-0.12.7": "edc692ff9b0dc2833b1490a420fac9bdc4c85257b383aff7467cb23a7c1ec16a",
+  "i686-unknown-linux-musl-0.12.7": "a1cccfea5d8063fd44ef0154691066f0c7607f04236a51360c113e29da3b3fca",
+  "powerpc64le-unknown-linux-gnu-0.12.7": "cf3d2cb9f156de68e827bed822ce85952c331d739abc0a214bc75f378ef81cb4",
+  "riscv64gc-unknown-linux-gnu-0.12.7": "0218ed3ecbd7c56e7811b46dce30319cf727f6fbf989080c5eeac1976216f22f",
+  "riscv64gc-unknown-linux-musl-0.12.7": "5b8d5113a5d0a975dec33f9569237181f06d0d4cffd110e7899321ffe64ca578",
+  "s390x-unknown-linux-gnu-0.12.7": "afebbf174931be732ed1e372dbdfecc6c053ab4148243196b449c9973adb79c5",
+  "x86_64-apple-darwin-0.12.7": "06b8ae1da8c2661c5434507a66f8c2b0b835933bf955b5958a9ac357a37d1959",
+  "x86_64-pc-windows-msvc-0.12.7": "bf1518af459a3915511a11fdc6e2f43ef9a2afa138b9d498eeb9642fe9d85218",
+  "x86_64-unknown-linux-gnu-0.12.7": "788f18abea7c5f55d6216e4f5613fd89d4d59b631efeec117b2b07fe72f1da21",
+  "x86_64-unknown-linux-musl-0.12.7": "3d64d44ed67da7908dc7f5c4d64ebb44bad326fa17f8a0a52fc9a7793017bbe1",
   "aarch64-apple-darwin-0.12.6": "14b459d51ea2e71eeba28c45a268c922bdf8607fc6455e3f40b4e082895d160d",
   "aarch64-pc-windows-msvc-0.12.6": "6dda514fbbe3152d980758e0f6347116060114d7d24932fc0ea5d8063f8b253a",
   "aarch64-unknown-linux-gnu-0.12.6": "d58030acd26159499ac82f32da12d1b3c12a3a1bfc414232d9082070c03e128d",
@@ -99694,15 +99820,20 @@ var known_checksums_default = {
 var KNOWN_CHECKSUMS = known_checksums_default;
 
 // src/download/checksum/checksum.ts
-async function validateChecksum(checksum, downloadPath, arch3, platform2, version3) {
+async function validateChecksum(checksum, downloadPath, arch3, platform2, version3, manifestChecksum) {
   const key = `${arch3}-${platform2}-${version3}`;
   const hasProvidedChecksum = checksum !== void 0 && checksum !== "";
-  const checksumToUse = hasProvidedChecksum ? checksum : KNOWN_CHECKSUMS[key];
+  const knownChecksum = KNOWN_CHECKSUMS[key];
+  const hasManifestChecksum = manifestChecksum !== void 0 && manifestChecksum !== "";
+  const checksumToUse = hasProvidedChecksum ? checksum : knownChecksum ?? (hasManifestChecksum ? manifestChecksum : void 0);
   if (checksumToUse === void 0) {
+    if (manifestChecksum !== void 0) {
+      throw new Error(`No checksum found for ${key} in manifest.`);
+    }
     debug(`No checksum found for ${key}.`);
     return;
   }
-  const checksumSource = hasProvidedChecksum ? "provided checksum" : `KNOWN_CHECKSUMS entry for ${key}`;
+  const checksumSource = hasProvidedChecksum ? "provided checksum" : knownChecksum !== void 0 ? `KNOWN_CHECKSUMS entry for ${key}` : "manifest checksum";
   debug(`Validating checksum using ${checksumSource}.`);
   const isValid = await validateFileCheckSum(downloadPath, checksumToUse);
   if (!isValid) {
@@ -99731,23 +99862,12 @@ var import_node_stream5 = require("node:stream");
 
 // src/utils/fetch.ts
 var import_undici2 = __toESM(require_undici2(), 1);
-function getProxyAgent() {
-  const httpProxy = process.env.HTTP_PROXY || process.env.http_proxy;
-  if (httpProxy) {
-    return new import_undici2.ProxyAgent(httpProxy);
-  }
-  const httpsProxy = process.env.HTTPS_PROXY || process.env.https_proxy;
-  if (httpsProxy) {
-    return new import_undici2.ProxyAgent(httpsProxy);
-  }
-  return void 0;
-}
 var fetch = async (url2, opts) => {
   const timeoutSignal = AbortSignal.timeout(5e3);
   const existingSignal = opts.signal;
   const mergedSignal = existingSignal ? AbortSignal.any([timeoutSignal, existingSignal]) : timeoutSignal;
   return await (0, import_undici2.fetch)(url2, {
-    dispatcher: getProxyAgent(),
+    dispatcher: new import_undici2.EnvHttpProxyAgent(),
     ...opts,
     signal: mergedSignal
   });
@@ -101620,6 +101740,7 @@ async function downloadVersion(platform2, arch3, version3, checksum, githubToken
     );
   }
   const resolvedChecksum = manifestUrl === void 0 ? checksum : resolveChecksum(checksum, artifact.checksum);
+  const manifestChecksum = artifact.checksum;
   const mirrorUrl = downloadFromAstralMirror ? rewriteToMirror(artifact.downloadUrl) : void 0;
   const downloadUrl = mirrorUrl ?? artifact.downloadUrl;
   try {
@@ -101630,6 +101751,7 @@ async function downloadVersion(platform2, arch3, version3, checksum, githubToken
       arch3,
       version3,
       resolvedChecksum,
+      manifestChecksum,
       githubTokenForUrl(downloadUrl, githubToken)
     );
   } catch (err) {
@@ -101646,6 +101768,7 @@ async function downloadVersion(platform2, arch3, version3, checksum, githubToken
       arch3,
       version3,
       resolvedChecksum,
+      manifestChecksum,
       githubTokenForUrl(artifact.downloadUrl, githubToken)
     );
   }
@@ -101663,14 +101786,21 @@ function githubTokenForUrl(downloadUrl, githubToken) {
     return void 0;
   }
 }
-async function downloadArtifact(downloadUrl, artifactName, platform2, arch3, version3, checksum, githubToken) {
+async function downloadArtifact(downloadUrl, artifactName, platform2, arch3, version3, checksum, manifestChecksum, githubToken) {
   info2(`Downloading uv from "${downloadUrl}" ...`);
   const downloadPath = await downloadTool(
     downloadUrl,
     void 0,
     githubToken
   );
-  await validateChecksum(checksum, downloadPath, arch3, platform2, version3);
+  await validateChecksum(
+    checksum,
+    downloadPath,
+    arch3,
+    platform2,
+    version3,
+    manifestChecksum
+  );
   let uvDir;
   if (platform2 === "pc-windows-msvc") {
     try {
@@ -101997,6 +102127,40 @@ function getResolutionStrategy() {
   );
 }
 
+// src/utils/python-runtime.ts
+var import_node_child_process = require("node:child_process");
+var import_node_util4 = require("node:util");
+var execFileAsync = (0, import_node_util4.promisify)(import_node_child_process.execFile);
+async function getPythonRuntimeId(inputs) {
+  if (!inputs.activateEnvironment) {
+    return "";
+  }
+  try {
+    const { stdout } = await execFileAsync(
+      "uv",
+      [
+        "python",
+        "list",
+        inputs.venvPath,
+        "--only-installed",
+        "--output-format",
+        "json"
+      ],
+      { encoding: "utf8" }
+    );
+    const pythons = JSON.parse(stdout);
+    if (!Array.isArray(pythons) || pythons.length !== 1 || typeof pythons[0]?.key !== "string" || pythons[0].key === "") {
+      throw new Error("Expected one installed Python with a runtime key");
+    }
+    return pythons[0].key;
+  } catch (error2) {
+    throw new Error(
+      `Failed to identify the activated environment's Python runtime: ${error2 instanceof Error ? error2.message : String(error2)}`,
+      { cause: error2 }
+    );
+  }
+}
+
 // src/setup-uv.ts
 var sourceDir = __dirname;
 function formatUnexpectedFailure(error2) {
@@ -102067,6 +102231,7 @@ async function run() {
     info2(`Successfully installed uv version ${setupResult.version}`);
     const detectedPythonVersion = await getPythonVersion2(inputs);
     setOutput("python-version", detectedPythonVersion);
+    setOutput("python-runtime-id", await getPythonRuntimeId(inputs));
     if (inputs.enableCache) {
       await restoreCache2(inputs, detectedPythonVersion);
     }
