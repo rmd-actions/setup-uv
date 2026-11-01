@@ -27,13 +27,15 @@ jobs:
       - name: Actionlint
         uses: eifinger/actionlint-action@1fc89649be682d16ec5cf65ea16e269eb88d3982 # v1.10.2
       - name: Run zizmor
-        uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
+        uses: zizmorcore/zizmor-action@cc914d7f3750a2d13d75c7f184a1060aa0e9d482 # v0.6.4
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: .nvmrc
           cache: npm
       - run: |
           npm ci --ignore-scripts
+      - name: Verify npm package signatures
+        run: npm audit signatures
       - run: |
           npm run all
       - name: Check all jobs are in all-tests-passed.needs
@@ -49,7 +51,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, macos-14, windows-latest]
+        os: [ubuntu-latest, macos-latest, macos-15, windows-latest]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -314,7 +316,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, macos-14, windows-latest]
+        os: [ubuntu-latest, macos-latest, macos-15, windows-latest]
     steps:
       - name: Install default version
         uses: $/
@@ -542,8 +544,6 @@ jobs:
             expected-os: "ubuntu-22.04"
           - os: ubuntu-24.04
             expected-os: "ubuntu-24.04"
-          - os: macos-14
-            expected-os: "macos-14"
           - os: macos-15
             expected-os: "macos-15"
           - os: windows-2022
