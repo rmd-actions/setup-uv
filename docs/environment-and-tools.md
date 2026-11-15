@@ -9,7 +9,7 @@ This allows directly using it in later steps:
 
 ```yaml
 - name: Install the latest version of uv and activate the environment
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
   with:
     activate-environment: true
 - run: uv pip install pip
@@ -32,7 +32,7 @@ key: build-${{ runner.os }}-${{ runner.arch }}-${{ steps.setup-uv.outputs.python
 You can customize the venv location with `venv-path`, for example to place it in the runner temp directory:
 
 ```yaml
-- uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+- uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
   with:
     activate-environment: true
     venv-path: ${{ runner.temp }}/custom-venv
@@ -50,12 +50,13 @@ You can customize the venv location with `venv-path`, for example to place it in
 
 ## GitHub authentication token
 
-By default, this action resolves available uv versions from
-[`astral-sh/versions`](https://github.com/astral-sh/versions), then downloads uv artifacts from
-GitHub Releases.
+By default, this action fetches version metadata and uv archives from the Astral mirror.
+If a manifest request fails, it falls back to `raw.githubusercontent.com`. If an archive download
+fails, it falls back to GitHub Releases.
 
-You can provide a token via `github-token` to authenticate those downloads. By default, the
-`GITHUB_TOKEN` secret is used, which is automatically provided by GitHub Actions.
+You can provide a token via `github-token` to authenticate GitHub Releases downloads. The token
+is not sent to the Astral mirror or used for manifest requests. By default, the `GITHUB_TOKEN`
+secret is used, which is automatically provided by GitHub Actions.
 
 If the default
 [permissions for the GitHub token](https://docs.github.com/en/actions/security-for-github-actions/security-guides/automatic-token-authentication#permissions-for-the-github_token)
@@ -63,7 +64,7 @@ are not sufficient, you can provide a custom GitHub token with the necessary per
 
 ```yaml
 - name: Install the latest version of uv with a custom GitHub token
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
   with:
     github-token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
 ```
@@ -81,7 +82,7 @@ input:
 
 ```yaml
 - name: Install the latest version of uv with a custom tool dir
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
   with:
     tool-dir: "/path/to/tool/dir"
 ```
@@ -100,7 +101,7 @@ If you want to change this behaviour (especially on self-hosted runners) you can
 
 ```yaml
 - name: Install the latest version of uv with a custom tool bin dir
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
   with:
     tool-bin-dir: "/path/to/tool-bin/dir"
 ```
@@ -117,7 +118,7 @@ This action supports expanding the `~` character to the user's home directory fo
 
 ```yaml
 - name: Expand the tilde character
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
   with:
     cache-local-path: "~/path/to/cache"
     tool-dir: "~/path/to/tool/dir"
@@ -134,7 +135,7 @@ If you want to ignore this, set the `ignore-empty-workdir` input to `true`.
 
 ```yaml
 - name: Ignore empty workdir
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
   with:
     ignore-empty-workdir: true
 ```
@@ -144,6 +145,7 @@ If you want to ignore this, set the `ignore-empty-workdir` input to `true`.
 This action sets several environment variables that influence uv's behavior and can be used by subsequent steps:
 
 - `UV_PYTHON`: Set when `python-version` is specified or the selected `.tool-versions` file contains a supported `python` entry. Controls which Python version uv uses.
+- `UV_PYTHON_ARCH`: Set when `python-arch` is specified. Controls the architecture of Python requests that do not specify one.
 - `UV_CACHE_DIR`: Set when caching is enabled (unless already configured in uv config files). Controls where uv stores its cache.
 - `UV_TOOL_DIR`: Set when `tool-dir` input is specified. Controls where uv installs tool environments.
 - `UV_TOOL_BIN_DIR`: Set when `tool-bin-dir` input is specified. Controls where uv installs tool binaries.
@@ -155,10 +157,11 @@ This action sets several environment variables that influence uv's behavior and 
 - `UV_NO_MODIFY_PATH`: If set, prevents the action from modifying PATH. Cannot be used with `activate-environment`.
 - `UV_CACHE_DIR`: If already set, the action will respect it instead of setting its own cache directory.
 - `UV_PYTHON`: If already set and `python-version` is not specified, the action will respect it instead of using the `python` entry from `.tool-versions`.
+- `UV_PYTHON_ARCH`: If already set and `python-arch` is not specified, the action will use it and include it in the cache key. Requires a uv version that supports `UV_PYTHON_ARCH`.
 
 ```yaml
 - name: Example using environment variables
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
   with:
     python-version: "3.12"
     tool-dir: "/custom/tool/dir"
