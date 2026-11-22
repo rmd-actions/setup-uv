@@ -12,6 +12,9 @@ inputs:
   python-version:
     description: "The version of Python to set UV_PYTHON to. Overrides the Python version from .tool-versions."
     required: false
+  python-arch:
+    description: "The Python architecture to set UV_PYTHON_ARCH to, e.g., x86_64 or aarch64. Overrides UV_PYTHON_ARCH."
+    required: false
   activate-environment:
     description: "Use uv venv to activate a venv ready to be used by later steps. "
     default: "false"
@@ -27,6 +30,9 @@ inputs:
   checksum:
     description: "The checksum of the uv version to install"
     required: false
+  require-checksums:
+    description: "Require a SHA-256 checksum bundled with setup-uv or supplied through the checksum input."
+    default: "false"
   github-token:
     description:
       "Used when downloading uv from GitHub releases."
@@ -110,7 +116,7 @@ outputs:
   python-runtime-id:
     description: "An opaque identifier reported by uv for the activated venv's Python runtime. Empty when activate-environment is false."
   python-cache-hit:
-    description: "A boolean value to indicate the Python cache entry was found"
+    description: "A boolean indicating whether the Python cache was restored successfully."
 runs:
   using: "node24"
   main: "dist/setup/index.cjs"

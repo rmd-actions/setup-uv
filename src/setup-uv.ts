@@ -5,9 +5,14 @@ import * as exec from "@actions/exec";
 import { restoreCache } from "./cache/restore-cache";
 import {
   downloadVersion,
+  getIntrinsicChecksum,
   tryGetFromToolCache,
 } from "./download/download-version";
-import { STATE_UV_PATH, STATE_UV_VERSION } from "./utils/constants";
+import {
+  STATE_UV_PATH,
+  STATE_UV_VERSION,
+  TOOL_CACHE_NAME,
+} from "./utils/constants";
 import { CacheLocalSource, loadInputs, type SetupInputs } from "./utils/inputs";
 import * as log from "./utils/logging";
 import {
@@ -16,6 +21,7 @@ import {
   getPlatform,
   type Platform,
 } from "./utils/platforms";
+import { setupPythonArch } from "./utils/python-arch";
 import { getPythonRuntimeId } from "./utils/python-runtime";
 import { resolveUvVersion } from "./version/resolve";
 
@@ -86,6 +92,11 @@ async function run(): Promise<void> {
       throw new Error(`Unsupported architecture: ${process.arch}`);
     }
     const setupResult = await setupUv(inputs, platform, arch);
+    const uvPath = path.join(
+      setupResult.uvDir,
+      process.platform === "win32" ? "uv.exe" : "uv",
+    );
+    await setupPythonArch(uvPath, inputs.pythonArch, inputs.exportPythonArch);
 
     addToolBinToPath(inputs);
     addUvToPathAndOutput(setupResult.uvDir);
@@ -141,7 +152,21 @@ async function setupUv(
     versionFile: inputs.versionFile,
     workingDirectory: inputs.workingDirectory,
   });
-  const toolCacheResult = tryGetFromToolCache(arch, resolvedVersion);
+  let checksum = inputs.checksum;
+  let toolCacheName = TOOL_CACHE_NAME;
+  if (inputs.requireChecksums) {
+    checksum = getIntrinsicChecksum(
+      `${arch}-${platform}-${resolvedVersion}`,
+      inputs.checksum,
+    );
+    // A regular tool-cache entry may have been verified using a manifest checksum.
+    toolCacheName = `${TOOL_CACHE_NAME}-${checksum}`;
+  }
+  const toolCacheResult = tryGetFromToolCache(
+    arch,
+    resolvedVersion,
+    toolCacheName,
+  );
   if (toolCacheResult.installedPath) {
     log.info(`Found uv in tool-cache for ${toolCacheResult.version}`);
     return {
@@ -154,10 +179,11 @@ async function setupUv(
     platform,
     arch,
     resolvedVersion,
-    inputs.checksum,
+    checksum,
     inputs.githubToken,
     inputs.manifestFile,
     inputs.downloadFromAstralMirror,
+    toolCacheName,
   );
 
   return {

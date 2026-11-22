@@ -6,7 +6,7 @@ This document covers advanced options for configuring which version of uv to ins
 
 ```yaml
 - name: Install the latest version of uv
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
   with:
     version: "latest"
 ```
@@ -15,11 +15,13 @@ This document covers advanced options for configuring which version of uv to ins
 
 Use `latest-known` to install the newest uv version whose checksums were bundled with the version of setup-uv used by your workflow. Version resolution is performed locally without fetching the latest release, so updating setup-uv also updates the version selected by `latest-known`.
 
-When `manifest-file` is set, `latest-known` still selects a version from setup-uv's bundled checksum table, but the artifact and checksum come from the custom manifest.
+When `manifest-file` is set, `latest-known` still selects a version from setup-uv's bundled checksum table.
+By default the custom manifest supplies the artifact and checksum. To require a bundled or explicitly
+supplied checksum, enable `require-checksums`. [Checksum validation](customization.md#validate-checksum)
 
 ```yaml
 - name: Install the latest version of uv known to setup-uv
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
   with:
     version: "latest-known"
 ```
@@ -28,7 +30,7 @@ When `manifest-file` is set, `latest-known` still selects a version from setup-u
 
 ```yaml
 - name: Install a specific version of uv
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
   with:
     version: "0.4.4"
 ```
@@ -41,21 +43,21 @@ to install the latest version that satisfies the range.
 
 ```yaml
 - name: Install a semver range of uv
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
   with:
     version: ">=0.4.0"
 ```
 
 ```yaml
 - name: Pinning a minor version of uv
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
   with:
     version: "0.4.x"
 ```
 
 ```yaml
 - name: Install a pep440-specifier-satisfying version of uv
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
   with:
     version: ">=0.4.25,<0.5"
 ```
@@ -67,7 +69,7 @@ You can change this behavior using the `resolution-strategy` input:
 
 ```yaml
 - name: Install the lowest compatible version of uv
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
   with:
     version: ">=0.4.0"
     resolution-strategy: "lowest"
@@ -92,7 +94,7 @@ as `UV_PYTHON`. Only a single Python version is supported; multiple fallback ver
 
 ```yaml
 - name: Install uv based on the version defined in pyproject.toml
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
   with:
     version-file: "pyproject.toml"
 ```
@@ -103,7 +105,7 @@ silently picking up a newer uv until the lockfile is updated.
 
 ```yaml
 - name: Install uv based on the version locked in uv.lock
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
   with:
     version-file: "uv.lock"
 ```

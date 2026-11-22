@@ -4,26 +4,51 @@ This document covers advanced customization options including checksum validatio
 
 ## Validate checksum
 
-Downloaded executables are automatically verified using checksums bundled with this action or,
+Downloaded archives are automatically verified using checksums bundled with this action or,
 for newer, not yet bundled versions, the checksum from [`astral-sh/versions`](https://github.com/astral-sh/versions).
 You can specify a checksum to override those values. The sha256 hashes can also be found on the
 [releases page](https://github.com/astral-sh/uv/releases) of the uv repo.
 
 ```yaml
 - name: Install a specific version and validate the checksum
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
   with:
     version: "0.3.1"
     checksum: "e11b01402ab645392c7ad6044db63d37e4fd1e745e015306993b07695ea5f9f8"
 ```
 
+For an additional layer of protection, you can set `require-checksums: true`.
+This prevents setup-uv from trusting an unknown version's checksum from
+[`astral-sh/versions`](https://github.com/astral-sh/versions) *unless* it is also
+present in the action's own bundled data *or* explicitly provided with `checksum`.
+
+This can be combined with `version: latest-known` to select the newest bundled release,
+meaning that this newer requires an external checksum source:
+
+```yaml
+- name: Install the latest known version of uv
+  uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
+  with:
+    version: latest-known
+    require-checksums: true
+```
+
+With this mode, you'll need to update setup-uv itself to get newer uv versions
+*unless* you explicitly pass in a `checksum` with a version that post-dates the setup-uv
+release.
+
+On runners with a persistent tool cache, this mode reuses only installations previously verified
+against the same digest. The first run may download uv again.
+
 ## Manifest file
 
 By default, setup-uv reads version metadata from
-[`astral-sh/versions`](https://github.com/astral-sh/versions).
+the [Astral mirror](https://releases.astral.sh/github/versions/main/v1/uv.ndjson).
+If the mirror request fails, it falls back to [`astral-sh/versions`](https://github.com/astral-sh/versions).
 
 The `manifest-file` input lets you override that source with your own URL, for example to test
-custom uv builds or alternate download locations.
+custom uv builds or alternate download locations. Custom manifest URLs do not fall back to the
+default sources.
 
 ### Format
 
@@ -40,7 +65,7 @@ The `archive_format` field is currently ignored.
 
 ```yaml
 - name: Use a custom manifest file
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
   with:
     manifest-file: "https://example.com/my-custom-manifest.ndjson"
 ```
@@ -59,7 +84,7 @@ You can disable this by setting the `add-problem-matchers` input to `false`.
 
 ```yaml
 - name: Install the latest version of uv without problem matchers
-  uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+  uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
   with:
     add-problem-matchers: false
 ```
